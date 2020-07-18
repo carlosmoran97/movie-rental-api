@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
+const router = require('./router');
 
 // Connect to the database
 sequelize.authenticate().then(()=>{
@@ -13,6 +14,7 @@ sequelize.authenticate().then(()=>{
 // Initialize http server
 const app = express();
 app.use(bodyParser.json());
+app.use(router);
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
     console.log(`App listening on port ${port}`);
