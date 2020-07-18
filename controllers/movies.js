@@ -69,7 +69,6 @@ module.exports = {
                 const imageFile = Buffer.from(image.split(',')[1], 'base64');
                 const result = await uploadFromBufer(imageFile);
                 imageUrl = result.url;
-                console.log(result);
             }
             const movie = await Movie.create({
                 title,
