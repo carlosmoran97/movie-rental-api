@@ -63,7 +63,7 @@ module.exports = {
         let imageUrl;
         try {
             if(!image) {
-                imageUrl = process.env.NO_IMAGE_URL;
+                imageUrl = null;
             } else {
                 // Upload to cloudinary
                 const imageFile = Buffer.from(image.split(',')[1], 'base64');
