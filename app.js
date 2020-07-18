@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 const sequelize = require('./config/database');
 const router = require('./router');
-
 // Connect to the database
 sequelize.authenticate().then(()=>{
     console.log('Connection has been established successfully');
