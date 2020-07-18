@@ -1,4 +1,5 @@
 const Movie = require('../models/movie');
+const uploadFromBufer = require('../helpers/upload_from_buffer');
 
 module.exports = {
     // ==============
@@ -56,16 +57,28 @@ module.exports = {
     // Create a new movie
     // ===================
     create: async (req, res) => {
-        // The image is not being save on this endpoint. Please see PATCH /movie/:id/image
-        const { title, description, rentalPrice, salePrice, availability, stock } = req.body;
+        // The image can be send as base64 encoded, but it you leave it alone
+        // a default image url will be saved
+        const { title, description, rentalPrice, salePrice, availability, stock, image } = req.body;
+        let imageUrl;
         try {
+            if(!image) {
+                imageUrl = process.env.NO_IMAGE_URL;
+            } else {
+                // Upload to cloudinary
+                const imageFile = Buffer.from(image.split(',')[1], 'base64');
+                const result = await uploadFromBufer(imageFile);
+                imageUrl = result.url;
+                console.log(result);
+            }
             const movie = await Movie.create({
                 title,
                 description,
                 rentalPrice,
                 salePrice,
                 availability,
-                stock
+                stock,
+                image: imageUrl
             });
             res.json(movie);
         }catch(err) {
@@ -78,6 +91,7 @@ module.exports = {
     // Update an existing movie
     // =========================
     update: async (req, res) => {
+        // For updating image use PUT /movies/:id/image endpoint
         const { id } = req.params;
         const { title, description, rentalPrice, salePrice, availability, stock } = req.body;
         try {
