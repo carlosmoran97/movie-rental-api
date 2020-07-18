@@ -57,14 +57,15 @@ module.exports = {
     // ===================
     create: async (req, res) => {
         // The image is not being save on this endpoint. Please see PATCH /movie/:id/image
-        const { title, description, rentalPrice, salePrice, availability } = req.body;
+        const { title, description, rentalPrice, salePrice, availability, stock } = req.body;
         try {
             const movie = await Movie.create({
                 title,
                 description,
                 rentalPrice,
                 salePrice,
-                availability
+                availability,
+                stock
             });
             res.json(movie);
         }catch(err) {
@@ -78,14 +79,15 @@ module.exports = {
     // =========================
     update: async (req, res) => {
         const { id } = req.params;
-        const { title, description, rentalPrice, salePrice, availability } = req.body;
+        const { title, description, rentalPrice, salePrice, availability, stock } = req.body;
         try {
             await Movie.update({
                 title,
                 description,
                 rentalPrice,
                 salePrice,
-                availability
+                availability,
+                stock
             },{ where: { id } });
             const movie = await Movie.findByPk(id);
             if(!movie) {
