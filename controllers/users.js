@@ -38,5 +38,20 @@ module.exports = {
         }
     },
     logout: async (req, res) => { },
-    register: async (req, res) => { },
+    register: async (req, res) => {
+        const { name, email, password, role } = req.body;
+        try {
+            const user = await User.create({
+                name,
+                email,
+                password: bcrypt.hashSync(password, 10),
+                role
+            });
+            res.json(user);
+        }catch(err) {
+            res.status(500).json({
+                error: err.message
+            });
+        }
+     },
 };

@@ -16,5 +16,6 @@ router.delete('/api/v1/movies/:id', movies.delete);
 // User routes
 // ============
 router.post('/api/v1/login', users.login);
+router.post('/api/v1/register', users.register);
 
 module.exports = router;
