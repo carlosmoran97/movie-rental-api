@@ -21,6 +21,7 @@
     "moment-timezone": "^0.5.31",
     "pg": "^8.3.0",
     "pg-hstore": "^2.3.3",
+    "redis": "^3.0.2",
     "sequelize": "^6.3.3",
     "sequelize-cli": "^6.2.0",
     "streamifier": "^0.1.1"
