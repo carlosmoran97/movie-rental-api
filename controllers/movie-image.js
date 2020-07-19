@@ -1,7 +1,9 @@
 const Movie = require('../models/movie');
 const uploadFromBufer = require('../helpers/upload_from_buffer');
 const updateImage = require('../helpers/update-image');
-
+// =====================
+// Update a movie image
+// =====================
 module.exports = {
     update: async (req, res) => {
         const { id } = req.params;
@@ -16,11 +18,16 @@ module.exports = {
             }
             const imageFile = Buffer.from(image.split(',')[1], 'base64');
             if(!movie.image) {
+                // Image is empty, so we upload a new image
                 const result = await uploadFromBufer(imageFile);
                 imageUrl = result.url;
             } else {
+                // Get the public ID of tje image
+                // For example:
+                // http://res.cloudinary.com/djeytlsy3/image/upload/v1595057216/obhhv0fzvaogp46hi05p.jpg -> obhhv0fzvaogp46hi05p
                 const parts = movie.image.split('/');
                 imageId = parts[parts.length - 1].split('.')[0];
+                // Update the image
                 const result = await updateImage(imageId, imageFile);
                 imageUrl = result.url;
             }

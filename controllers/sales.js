@@ -17,6 +17,9 @@ module.exports = {
             },{ transaction: t });
             for(const line of lines){
                 const movie = await Movie.findOne({ where: { id: line.movieId } });
+                if(!movie.availability) {
+                    throw new Exception('Movie must be available.');
+                }
                 await SaleLine.create({
                     SaleId: sale.id,
                     MovieId: line.movieId,
