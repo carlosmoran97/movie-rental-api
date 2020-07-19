@@ -2,6 +2,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const RentStates = require('../config/rent-state');
+const User = require('./user');
 
 class Rent extends Model {};
 Rent.init({
@@ -16,6 +17,13 @@ Rent.init({
 }, {
   sequelize,
   modelName: 'Rent',
+});
+
+Rent.belongsTo(User, {
+  foreignKey: {
+    name: 'UserId',
+    allowNull: false
+  }
 });
 
 module.exports = Rent;

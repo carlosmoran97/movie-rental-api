@@ -1,5 +1,5 @@
 'use strict';
-const { Model } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Movie = require('./movie');
 const Rent = require('./rent');
@@ -9,6 +9,15 @@ RentLine.init({
   quantity: DataTypes.INTEGER,
   priceUnit: DataTypes.FLOAT
 }, {
+  hooks: {
+    afterSave: (rentLine, options) => {
+      Movie.decrement('stock', { 
+        by: rentLine.quantity, 
+        where: { id: rentLine.MovieId }, 
+        transaction: options.transaction 
+      });
+    }
+  },
   sequelize,
   modelName: 'RentLine',
 });

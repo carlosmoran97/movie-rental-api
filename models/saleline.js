@@ -11,7 +11,11 @@ SaleLine.init({
 }, {
   hooks: {
     afterSave: (saleLine, options) => {
-      Movie.decrement('stock', { by: saleLine.quantity, where: { id: saleLine.MovieId } });
+      Movie.decrement('stock', {
+        by: saleLine.quantity,
+        where: { id: saleLine.MovieId },
+        transaction: options.transaction
+      });
     },
   },
   sequelize,
