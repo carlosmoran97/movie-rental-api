@@ -7,6 +7,7 @@ const movieImage = require('./controllers/movie-image');
 const users = require('./controllers/users');
 const sales = require('./controllers/sales');
 const rents = require('./controllers/rents');
+const likes = require('./controllers/likes');
 
 // =============
 // Movie routes
@@ -39,5 +40,10 @@ router.post('/api/v1/sales', authorize(Role.User), sales.create);
 router.post('/api/v1/rents', authorize(Role.User), rents.create);
 router.put('/api/v1/rents', authorize(Role.User), rents.returnMovie);
 router.put('/api/v1/rents', authorize(Role.User), rents.payMonetaryPenalty);
+
+// ===========
+// Like routes
+// ===========
+router.post('/api/v1/likes', authorize(Role.User), likes.create);
 
 module.exports = router;

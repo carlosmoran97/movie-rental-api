@@ -19,7 +19,14 @@ Movie.init({
   rentalPrice: DataTypes.FLOAT,
   salePrice: DataTypes.FLOAT,
   availability: DataTypes.BOOLEAN,
-  stock: DataTypes.INTEGER
+  stock: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
+  likes: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  }
 }, {
   sequelize,
   modelName: 'Movie',
