@@ -39,8 +39,8 @@ router.post('/api/v1/sales', authorize(Role.User), sales.create);
 // Rent routes
 // ============
 router.post('/api/v1/rents', authorize(Role.User), rents.create);
-router.put('/api/v1/rents', authorize(Role.User), rents.returnMovie);
-router.put('/api/v1/rents', authorize(Role.User), rents.payMonetaryPenalty);
+router.put('/api/v1/rents/:id/return', authorize(Role.User), rents.returnMovie);
+router.put('/api/v1/rents/:id/pay-monetary-penalty', authorize(Role.User), rents.payMonetaryPenalty);
 
 // ===========
 // Like routes
