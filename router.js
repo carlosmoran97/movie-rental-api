@@ -29,6 +29,7 @@ router.put('/api/v1/movies/:id/image', authorize(Role.Admin), movieImage.update)
 // ============
 router.post('/api/v1/login', users.login);
 router.post('/api/v1/register', users.register);
+router.post('/api/v1/logout', users.logout);
 
 // ===========
 // Sale routes

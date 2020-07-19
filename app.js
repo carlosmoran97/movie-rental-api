@@ -3,12 +3,22 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const sequelize = require('./config/database');
 const router = require('./router');
+const redis = require('./config/redis');
+
 // Connect to the database
 sequelize.authenticate().then(()=>{
     console.log('Connection has been established successfully');
 })
 .catch( err =>{
     console.log('Unable to connect to the database: ', err);
+});
+
+// Redis
+redis.on('connect', function () {
+    console.log('Connected to redis');
+});
+redis.on('error', (error)=>{
+    console.log('Redis not connected', error)
 });
 
 // Initialize http server
@@ -39,7 +49,10 @@ process.on('SIGINT', () => {
         console.log('Http server closed');
         sequelize.close().then(() => {
             console.log('Sequelize connection closed');
-            process.exit(0);
+            redis.quit(function(err, reply){
+                console.log(`Quit redis ${reply}`);
+                process.exit(0);
+            });
         });
     });
 });

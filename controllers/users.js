@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const redis = require('../config/redis');
 
 module.exports = {
     // ==========================================================================
@@ -37,7 +38,21 @@ module.exports = {
             });
         }
     },
-    logout: async (req, res) => { },
+    logout: async (req, res) => {
+        // logout user
+        // save token in redis
+        try {
+            const token = req.headers.authorization.split(' ')[1];
+            await redis.LPUSH('token', token);
+            return res.status(200).json({
+                message: 'You are logged out',
+            });
+        } catch (err) {
+            return res.status(500).json({
+                error: err.message,
+            });
+        }
+    },
     register: async (req, res) => {
         const { name, email, password, role } = req.body;
         try {
@@ -48,10 +63,10 @@ module.exports = {
                 role
             });
             res.json(user);
-        }catch(err) {
+        } catch (err) {
             res.status(500).json({
                 error: err.message
             });
         }
-     },
+    },
 };

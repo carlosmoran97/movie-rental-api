@@ -1,5 +1,6 @@
 const jwt = require('express-jwt');
 const secret = process.env.SECRET;
+const validateToken = require('../helpers/validate-token');
 
 function authorize(roles=[]){
     // roles param can be a single role string (e.g. Role.User or 'User') 
@@ -9,6 +10,7 @@ function authorize(roles=[]){
     }
 
     return [
+        validateToken,
         // authenticate JWT token and attach user to request object (req.user)
         jwt({ secret, algorithms: ['HS256'] }),
 
