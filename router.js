@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authorize = require('./middleware/authorize');
+const authenticate = require('./middleware/authenticate');
 const Role = require('./config/role');
 const movies = require('./controllers/movies');
 const movieImage = require('./controllers/movie-image');
@@ -12,7 +13,7 @@ const likes = require('./controllers/likes');
 // =============
 // Movie routes
 // =============
-router.get('/api/v1/movies', movies.find);
+router.get('/api/v1/movies', authenticate(), movies.find);
 router.get('/api/v1/movies/:id', movies.findById);
 router.post('/api/v1/movies', authorize(Role.Admin), movies.create);
 router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);

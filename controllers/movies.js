@@ -1,5 +1,7 @@
 const Movie = require('../models/movie');
 const uploadFromBufer = require('../helpers/upload_from_buffer');
+const Role = require('../config/role');
+const { Op } = require("sequelize");
 
 module.exports = {
     // ==============
@@ -7,13 +9,22 @@ module.exports = {
     // ==============
     find: async (req, res) => {
         // Get all products
+        // Can be ordered by title or popularity (asc or desc)
         // only admin can switch between available/unavailable products
+        // can search by title
         // paginated
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 10, order_by = 'title', availability, title = '' } = req.query;
         try {
             const movies = await Movie.findAndCountAll({
                 limit,
-                offset: limit * (page - 1)
+                offset: limit * (page - 1),
+                order: [orderMoviesBy(order_by)],
+                where: {
+                    availability: whereAvailability(availability, req.user),
+                    title: {
+                        [Op.iLike]: `%${title}%`
+                    }
+                },
             });
 
             // Paginating
@@ -140,3 +151,32 @@ module.exports = {
         }
     },
 };
+
+function orderMoviesBy(order) {
+    switch(order) {
+        case '-title':
+            return ['title', 'DESC'];
+        case 'popularity':
+            return ['likes', 'DESC'];
+        case '-popularity':
+            return['likes', 'ASC'];
+        case 'title':
+        default:
+            return ['title', 'ASC'];
+    }
+}
+
+function whereAvailability(availability, user) {
+    // If user is no authenticated (or is normal user) return available movies only
+    if(!user || user.role === Role.User) {
+        return true;
+    }else if(user.role === Role.Admin) {
+        // If user doesn't provide availability then return available/unavailable movies
+        if(availability === undefined) {
+            return {
+                [Op.any]: [true, false]
+            };
+        }
+        return availability;
+    } 
+}
