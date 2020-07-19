@@ -6,6 +6,7 @@ const movies = require('./controllers/movies');
 const movieImage = require('./controllers/movie-image');
 const users = require('./controllers/users');
 const sales = require('./controllers/sales');
+const rents = require('./controllers/rents');
 
 // =============
 // Movie routes
@@ -31,5 +32,12 @@ router.post('/api/v1/register', users.register);
 // Sale routes
 // ===========
 router.post('/api/v1/sales', authorize(Role.User), sales.create);
+
+// ============
+// Rent routes
+// ============
+router.post('/api/v1/rents', authorize(Role.User), rents.create);
+router.put('/api/v1/rents', authorize(Role.User), rents.returnMovie);
+router.put('/api/v1/rents', authorize(Role.User), rents.payMonetaryPenalty);
 
 module.exports = router;
