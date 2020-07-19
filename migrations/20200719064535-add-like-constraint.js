@@ -4,7 +4,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addConstraint('Likes', {
       fields: ['UserId', 'MovieId'],
-      type: 'PRIMARY KEY',
+      type: 'UNIQUE',
       name: 'likes_pkey'
     });
   },
