@@ -5,6 +5,7 @@ const Role = require('./config/role');
 const movies = require('./controllers/movies');
 const movieImage = require('./controllers/movie-image');
 const users = require('./controllers/users');
+const sales = require('./controllers/sales');
 
 // =============
 // Movie routes
@@ -25,5 +26,10 @@ router.put('/api/v1/movies/:id/image', authorize(Role.Admin), movieImage.update)
 // ============
 router.post('/api/v1/login', users.login);
 router.post('/api/v1/register', users.register);
+
+// ===========
+// Sale routes
+// ===========
+router.post('/api/v1/sales', authorize(Role.User), sales.create);
 
 module.exports = router;

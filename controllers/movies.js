@@ -115,6 +115,9 @@ module.exports = {
             });
         }
     },
+    // ===============
+    // Delete a movie
+    // ===============
     delete: async (req, res) => {
         const { id } = req.params;
         try{
