@@ -1,40 +1,35 @@
-#-------------------------------------------------------------------------------------------------------------
-# Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License. See https://go.microsoft.com/fwlink/?linkid=2090316 for license information.
-#-------------------------------------------------------------------------------------------------------------
-
 version: '3'
 services:
   web:
-    # Uncomment the next line to use a non-root user for all processes. You can also
-    # simply use the "remoteUser" property in devcontainer.json if you just want VS Code
-    # and its sub-processes (terminals, tasks, debugging) to execute as the user. On Linux,
-    # you may need to update USER_UID and USER_GID in .devcontainer/Dockerfile to match your
-    # user if not 1000. See https://aka.ms/vscode-remote/containers/non-root for details.
-    # user: node
-
+    container_name: "api"
     build: 
       context: .
-      dockerfile: Dockerfile
-      args:
-        VARIANT: 12
-    
-    volumes:
-      - ..:/workspace:cached
-      
-    # Overrides default command so things don't shut down after the process ends.
-    command: sleep infinity
-
+      dockerfile: Dockerfile  
+    environment: 
+      NODE_ENV: production
+      PORT: 80
+    ports:
+      - 80:80
     links:
       - db
+      - redis
 
   db:
     image: postgres
+    container_name: "postgres"
     restart: unless-stopped
     ports: 
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: pass
-      POSTGRES_USER: user
-      POSTGRES_DB: data
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_DB: movie_rental_prod
  
+  redis:
+    image: "redis:alpine"
+    container_name: "redis"
+    command: redis-server
+    ports:
+      - "6379:6379"
+    environment:
+     - REDIS_REPLICATION_MODE=master

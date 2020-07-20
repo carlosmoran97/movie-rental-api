@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-require('dotenv').config();
+require('dotenv').config({
+    path: process.env.NODE_ENV === 'production' ? '.env.prod' : '.env'
+});
 const sequelize = require('./config/database');
 const router = require('./router');
 const redis = require('./config/redis');
