@@ -143,7 +143,7 @@ And if you see those success messages that means that everything is working as e
 		"password":  "admin"
     }
 And the API should return a JSON Web Token like the one in the screenshot
-![enter image description here](https://lh3.googleusercontent.com/2Zrz5GRKGruSfVhHiv8mrSuKAd7CffOffNJ3rnkzo8xSN1apJXVSWsJ3d4P8R8ktUDjnV3RDoP5u1S1DuBRN1o77GFi7tq3A7U1lIbL5MSVOCHMsYdcpXmpK1-rX4P6T8CJPvjX4BQgIR_kry_ktkG5nXp4bDv_ptVd8oPl5-l3rb9NZdP0CsyIT5Ij3mgfHZicTz_U76HK_oZyT1Io1I-igLxwCWCPSfKNXf8T7Qj20KvEy8TBdfjvYWriO5vtle8BQgZcyJEppMuajAhygcG6WFSZRCrV9sK-AWkANAbCRrUBCH_1KM9l9h8LolNX2QY7_JHdnifhA2li2Ca35nhK0LIjSb_UTb6D0yQN9hOcBLaFTdQHH4cV3uFVIRbLi6ajaF5A8fhSFc-HIGGpEzzgI3crMQarAAAZ-p6DUj1uqWwesmMWgGuXvfZedbCUCDb3dyFTHBn9ETy6usK5HE8ETgRHRuzVCWqRwUmWqI5rebOzc7oxpGyTdfVpptYGqfDgfpnmtx1XdYWJ6IH9HdwQs-egaUbSYUdo-xpsk_rHqball0RHN5w5qY1Aiig3vQlIgxJypd-4IzMQ3IywMK_UWXPUClfFLBgAYUZsZubz2wPfK_n1NuhusLYUY4vFrJO7-lvzlhiif8hBD8C_m_ibivi0sNYOzw5pZGKP0unl6sZeWodThilu8c-hsp6w=w811-h736-no?authuser=0)
+![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3ei32ZdLt0IQd6fApgyfuBTvdJSH4smhMnwgUTV5DfHoZidCYIJhDEORp63AXnpNyIFlYziZZOrYAdqEFwera_ptXY0CsqfNeQ1r7CoJTuOW8KNYK5zVUJf2JPXLJCIMBx_Be1xA3Z862BPR5CazZFm9Q=w811-h736-no)
 
 That's all for this installation guide. If you found any trouble please contact me at the next email: carlosmoran.97cr@gmail.com and I will be glad to help you.
 
