@@ -4,6 +4,7 @@ const Movie = require('../models/movie');
 const sequelize = require('../config/database');
 const RentState = require('../config/rent-state');
 const moment = require('moment');
+const rentsLog = require('../helpers/rents-log');
 
 module.exports = {
     // ======================================
@@ -14,6 +15,9 @@ module.exports = {
         try {
             const userId = req.user.id;
             const { lines } = req.body;
+            if(!lines || lines.length === 0) {
+                throw new Exception('You have to add rent lines.');
+            }
             // Returning time can be setted on enviroment variables. By default is 2 days
             const rent = await Rent.create({
                 UserId: userId,
@@ -24,6 +28,7 @@ module.exports = {
                 state: RentState.isRented,
                 monetaryPenalty: 0.00
             },{ transaction: t });
+            let count = 0;
             for(const line of lines){
                 const movie = await Movie.findOne({ where: { id: line.movieId } });
                 if(!movie.availability) {
@@ -35,8 +40,10 @@ module.exports = {
                     quantity: line.quantity,
                     priceUnit: movie.rentalPrice
                 }, { transaction: t });
+                count += line.quantity;
             }
             await t.commit();
+            rentsLog(req.user, count);
             res.json(rent);
         }catch(err) {
             await t.rollback();
