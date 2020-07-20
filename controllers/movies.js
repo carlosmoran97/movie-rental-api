@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const uploadFromBufer = require('../helpers/upload_from_buffer');
 const Role = require('../config/role');
 const { Op } = require("sequelize");
+const movieUpdatesLog = require('../helpers/movie-updates-log');
 
 module.exports = {
     // ==============
@@ -108,6 +109,12 @@ module.exports = {
         const { id } = req.params;
         const { title, description, rentalPrice, salePrice, availability, stock } = req.body;
         try {
+            const movie = await Movie.findByPk(id);
+            if(!movie) {
+                return res.status(404).json({
+                    error: 'Movie not found'
+                });
+            }
             await Movie.update({
                 title,
                 description,
@@ -116,12 +123,8 @@ module.exports = {
                 availability,
                 stock
             },{ where: { id } });
-            const movie = await Movie.findByPk(id);
-            if(!movie) {
-                return res.status(404).json({
-                    error: 'Movie not found'
-                });
-            }
+            // Save log
+            movieUpdatesLog(title, rentalPrice, salePrice, movie);
             res.json(movie);
         }catch(err){
             res.status(500).json({
