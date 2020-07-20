@@ -26,7 +26,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(router);
 const port = process.env.PORT || 3000;
-const server = app.listen(port, () => {
+const host = '0.0.0.0';
+const server = app.listen(port, host, () => {
     console.log(`App listening on port ${port}`);
 });
 
