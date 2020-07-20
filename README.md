@@ -16,15 +16,22 @@ The requirements are:
 First of all, install PostgreSQL, in my case I am working with the version 12 for Windowsx86-64 operative system, you can download it from [here](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads).
 During the installation the program will ask you for a username and a password, in my case the username is **postgres** and the password is **root**.
 Once PostgreSQL is installed you have to create a new database, let's see how to create a database in the command line:
+
 **Step 1)** Open the SQL Shell
-![enter image description here](https://lh3.googleusercontent.com/0fpMXfMIdBgQbVCALtNHsGUq7hwnSb2bVmTcbe2tS9GJGeIJHhAL06YYJJyMVb-A-MrW64o4sBmQfJP26obRUqBe85ans6dqGbHdFxvSIyvJ8o5-H68-drQB9_SMQxKrYWsCga84pQR0iXY3cVQULSQhBjR203CMheb-lBLrcuwskplMGKvqmTVVcDp_3rJpyCLhfxDh1ab8Nl2P_U0WYVhkzt1Mm0or9aa1kASHN2zBKquXH3AaM-VTQIO0xuHHdQ9fd3KS_HBeEnBi2WRKNw_wcmaMw0ye8k5C-Ef7V4hZwu838AgRInNDAGzEHjL3Jejek5eJb6pY_vuWVv4hRL8to9kEb0eWojH5lvQsJKLirwXPvmuenH_Vnb463_hNfKFr3PRLuVIMQYmYhRNEd84cMBE4FeTyTqukvbKdY7cqrlZL7etEQ45dVzVKvql6qjMeYMZPrBtEkQJa6oatZlYUVyRxOjf3Wi4M7nCQuJ1Sj5iRyF_KdGSUg3CzFzpUIFVMqc8UjVhepNYtJZ18u0R4H8rxWXnBOsmOlUQ9CyGaqOLjUCahRXw_XBNCe-9UmZiIYUEbfpQc4m0aSCMXr0nY23_GqE6lkugb3XyF1e6NhOCZWI5MI4quMelnoEMLrmmbzTmDBw7yI3KTnNMl8ysup97G0H4_SUrUer3lQqAEOtesuhAV_edpKoygkT8=w985-h461-no?authuser=0)
+
+![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3dEwhpHx1zD19kpjqD3_NNbi-itjExdzvaTmrIMzoHmeNa2HwStxfOuZyAgyN3t70yTm-qe5eY4zS6cE4Deo2BlI6z2dxiTP5Arb8ASnjCJQXOPyAvs4RQdfNT6WKeHp43lwHyD2KpBSu60WSsoXElU2g=w985-h461-no)
+
 **Step 2)** Enter the requested information to connect
-![enter image description here](https://lh3.googleusercontent.com/qD_E7lZpERIJVD4ryvXyPUyb3aK0nCwXxf254KenCPR4non2e7ReBPLnMSJmcVOlRknOY_X63d9fnWdd021scAYxOmL_Tls6-MJr0VQ0_me9IJkk3T8e5v8_3cqurjggQOBl1Uw-_BHKlPksnJGA9ugO-N48njSyAm8kAv2VibJ8relkeQId5BiumaxpsuUHYstZfGoRRBYQeWXrK4tSlcXdM1a2rU4qIYYkCLoz71Yc2vLtNxfj9ooRpfo5jLkdZdOhW316x6SmqFKt9MsMReBCrCzGzGpjmxBXTgzOytNYUJx6Ikd6n7FW5ecQFj8mQ0NHwL72ntanR2Th0ZBZmsp1r_i0Aq60LUk76fktvn6Ef5hF_fnAhSF_xuS9CQQu_nqXqktfdTNzdE9f47WijAPgDxvtLtpkTXzZkKFgxj0uQXI00curi80qSCOdq_DLZ6GhOCFli8PXTrClyvIEREcIY6VCcgB-twsVIamDyzJDqUnlEztc12v49f8JZGMgjHQ3GunKZCtq2IkzbAxdNyXHTRn7j1pL6n_ChN-9u1zki_ezG_1LiTG6P-eCUqbteiOPINBf9RNFG0GDIdAkCXlu_Eh9n6TUgDcXUulptapsxnYJI515e6yhEjpr21KbZkoFoUUqCQUmD3f6azktiEqTSZL7hUqsjZCZQtEX6-aN1TX-f1nrlvOFYPDspkU=w1124-h337-no?authuser=0)
+
+![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3cxLefYXTFlvzi45ZkbFmBSPn0Gnw3wTR1pJ-jgmS0hGrapF9IqclWLz4prqXtOspEcvYK38nXDLw5JleiZ6x256i199iSFV2geuIScnbx34ztmvulQG6X_E7IUj30aBcTRsC2re_R6i3jrwpDFAWqkBQ=w1124-h337-no)
+
 **Step 3)** Enter the command
 
     CREATE DATABASE movie_rental_dev;
+
 **Step 4)** Enter \l command to get a list of all databases
-![enter image description here](https://lh3.googleusercontent.com/rWcfUMfcLELlFR33P1118_hqYJdrDUpC0eicTfeTPp65TZk7Z447k0Abui6xdqcD1aUAn4PZ6rgEIROkYt-OZvbnVbAssnwynjYSIvTSJPXj_o2BI9FDKyaiMFV2hcqnQdNYt-AnaNSqkjXFh2lh1hq9i0Hf4XvlUnYblJ6cFycSVjmC-v_IakLbSrSlVTrYGSKx61L-NOZIVnJ9a2KnQQVgkrHCAeehYdP3YqLvuCOieQSlwGAIdhR-FuAuXMcO9RrypxcG5jWkXRY5zI-t8LwkwC09hNH4J7SagMUiDXE30CQ3dyE6UzYWiJ9dppPvwQhsiKJZxm8oUs2w5fTOeXgI5uBm6IESEFoVMImO0lM7UcjDF9mJtq4D3MrXIR2As5f8B2PA4Z0CppS4g3YClWON408lPzKqCz_HYb4obBvuEGE0FylX1GfJSHO-F2rjgWCYl3KKUq-E7gqa-jXgKyI8BBI5yTAaVQxYa3sILhldgZeLbtZ3r0rXAMg9M_y9f40uC_ybXbiVc0RxTvqphKyCi8nhDwoe9W9SFdxmSODwMDOMEhca9fOeAYAuNrAf792OSdzm3tep5vRq6nwsajKzG8YHPQfAEAS4nmL5vyqKMnVYdLjt61rNscoMkKlRUyrEme1Cpp-x3dnEcPR4WnHte9VtBekDBiryeM-n9tcdENcKGfoOZSuW-hJTbJo=w1184-h309-no?authuser=0)
+
+![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3epjix7oOfOCTHGVcI9zP6hvJNyD_lsFszVngsN6-yZr2kksS4YSbhyi0YUwSwD4RA48x7zRlTMl-WSrm5ZZT2coXxGd-ZpRx7eoo56-rIdHI0lTa-13nADquBvNqXMWaVyM-ArPD0aYvcckMjhV1yI9A=w1184-h309-no)
 
 **Installing NodeJS**
 Node.js® is a JavaScript runtime built on [Chrome's V8 JavaScript engine](https://v8.dev/).
@@ -75,11 +82,15 @@ The 64-bit binary releases are created by building the [Microsoft's native port 
 ------
 With everything in place, now it's time to download the repository, click on the Download button an then extract the .zip file, it is going to create a folder called carlos-moran-master (if the folder is named different, just replace "carlos-moran-master" with the right folder name), now open the CMD and navigate to that folder, in my case it would be:
 
-![enter image description here](https://lh3.googleusercontent.com/CDi644TnvcrTbErosPEdau6Qo-gw6IsLxxXuRLmqYYZy4nFXPUyHON2BYlhgL-XpByiZMw_4tvKvvjMmLIbjI3kTteuwdtUcx7-IHAV1m_CYaEq_iZcNq9yUIvQRfjUpKV-Ha0z0MRpo506qytsCnT5U1ZQO6ad-LToqiXcAlrHIsbotWvkG3nkBhe8E52RYZwKm2-9spGg9B4TvVYURca_KetPPPeRR4ZvkDXtEz4TMAJmkBN473UCB5HKePrInqi4M257oiL-4SFoQoSamFv3V-4gx_WHEmpJceXavA9bTYbu_kyyZJOPlX92QLDJ8lSTvh9kcK0PWYmvA9_jwL7z8EIJymxL2kFpS0utBZevPDZtES5KBlw2R5nPHVPP_0clq2SPlC0d7Z4YcUSdQC1a9uZByGuyXOisFeTSXkVUdZMPZEwMVmapS4v2UWgurEJLFVrJGJMnHNlUoe90-zpJA3qFcMLKvIqZIWZWGpICSkNxK_scclvubGtCo9Ia5d6k-VvAAbuZaDv0g0eUA82E-f_6KukLSKhaO71fzeJIZJ8IydtPGkwYyalwQHpO4hFvgOx1Ig4RqBAhQEoJHqFmeShgLHRrVtUk6xwYv2Lh8Am2RMIBm3-BW2wiL56ta_ydf7ifCsf19ZXjliwg2JFDFDhXIhS0c5qHPX9L9wQBp-yOf_uAy1wse0gp-ots=w181-h213-no?authuser=0)
+![Image](https://lh3.googleusercontent.com/pw/ACtC-3dz_6VvkkmciNizJQSOJuM6b89fSw_Emb9XKouySbkmDPF0fExCpEziMKEeJ4iBfcWy2iZCzGwRTEv_qiNgolral6caRGSnRNXeSc5cCM7EKsRPVTt2m6NTIJoczxsmT5V0E6b_6b6fVnoQ_j2Ovk6BZg=w417-h344-no)
+
+![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3eqk3UKWwgAr-d83fvKCFWWprT8wqzCyXAZEcQVo7JD4kCJ0HMjpsS-n0mr8PE0jlWNO-Hq9P0T8AiZ4Q28tU-n_zOAZz2X5X2nPa6apIjrhQpPHumeO_xofNfO_v-cTu4F13i30SZMzkoQDZCaewKHVw=w181-h213-no)
    
     cd Downloads
     cd carlos-moran-master
-   ![enter image description here](https://lh3.googleusercontent.com/iGqpCYw0IMkSJjtiR32gGytNH0BUcFRguI6PGp65bO9dTAw-Kib6iRcG8PcUpWy1q4IfjJd9yXUwg1w8pyOiaNjO1yWqYC9JAVxxpUQnrS40ktXhW7TEMnLZWAoSuiGCxBBhaqgv_LkOCWOr02yI37OTbZWYvYH6ICKTy4G6t43YWBvxCx35y2gURwGqkPJPiMvRFQTSqh7Jfs5S4Y3VmM-_ngSbVjkuzkhPK3OB9KRjO8WJrO6t01vatYQbO8LhB6ABBe-3c41JpQ-C_si8m_LuTCSwREInVtBuxEFe1uc5EvZnSGQbjXf2gXYc_Vfo18k4uwK_gVBRqIyPoVXhBJNflgQqR_Y8arihs0_HgvE7B0f3oMQob-ZNsj2By2UeOMTrEIlWoJ7l8YuwmuZkz4UBdajAt19K5YvJiSR_9oEojy3TChEwBvhavHXhWVfQulcWJva8wsJaD6OkEEN6-tI-xOronWASUUCKmFwvAXlnbfYjt-952amRM860gM2JPXvefsiKSC2QLeidw6GTW1mfsNIFSTxIz8BRTGCdKPi9bh3z1jvQhur-JRpaGSqXJJDa76DTPkEBvKY6ZvfYj9nB4XDN8cvifLAEyIzQwPk_46Q1g-dSHuTYAQqthhr8ZtfcLvhID-kgRl4R5NioSvvBwvQ1MlgCwXgdWND5COLtuqRVW9DGJsBYGOuz_Gk=w499-h318-no?authuser=0)
+
+![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3cEF3SaMWGnLM_BwD4FyKVQX1v9CEo6A4SWAeixIMIU9TsRJkjk3s0tW22Fnf9M02uRFUNbNhGuhTdItyrbpEzhtNfZWZEK8xLY9Raf5y7OjmqT0sttnkQp-SN6OBDIiUb2kBCyWHMU4_xIQwiTWFHJRw=w516-h329-no)
+
 Now it's time to install the node.js dependencies. For doing that run the command
 
     npm install
@@ -98,9 +109,13 @@ Run the command:
     npx sequelize-cli db:seed:all
  
 ![enter image description here](https://lh3.googleusercontent.com/7C5HYh6P1XTd2ekhgoKjjZllY6rmgXhxA4UfIFD6rw3McpbNYbJtYU0Zn1bnv5f34oGHnHhtezS0DvihWyIqAq7IO0ARCjoclSvaOlsQs1q7N9ocDPdJ47mv2wBhP0QqKcS0gjCmNDz2DLAiMDdrFBpa5yBX5TJ8KwctmVTlCkFkRuWLjp3pZ3Quw6hc-Y-MRYDmANZmaFPC1mYCxqzoxBXEa-rVcU9MTJLmYwN0gijbLGnW9L0dpjhNWwAWpx9v8MaQjw4hQRAwjYAES3LgAcKkCBWUukqnu-5MKD5jKzb5L4pggXNlcirFZv9whL_dtWc5aug5bDZf1nicRZps_oMErQ-4D0dkccaG5CtAEsDQiJYJFDa_TADiRU50nAJb47rLsrWTWckGnC0M723SiCyAg2HhvS_Po_tg8glcBgb9Xun3SwKfRgEoZ5y33aPlLv43sUuYDHKNHp861utAbJKg2E_dVsvlV-7VF6XaDk1pneSrp7GzOWJvNUqcvNbVoE3VpZzJHABFVFnHU6v3s6TAt3v-V4k5ty-AWHYRBGOEC04eGAkwkKXlzTipB0eNVltvaec_tsoz7JxfHhGqgwD3AbNt5jQDR7-h8iOyUsg2AMjhJDDSepBaXmqHLBXcx2VauUJYHzpy_OH_Z-Q6uPB9p3WdCrpu_21ZW3oAPLdcbM36X0sHx7Riy7-qmPc=w725-h245-no?authuser=0)
- The last step before running the API is creating a .env file in the repository folder:
- ![enter image description here](https://lh3.googleusercontent.com/E0V0_kYb2YXv1HQcrg9bJfmvcyY3tA0vTt3-A-cQ0OKPIzE32o0oIH9EhSIZwMF_v_GVjUtDRVUJiu3zQokgtonHe40yxcpuP7I4NAjAl9tSACVBgu95Dv-kdBPiNNOCSH28EeP-v3E1vHwoD7ONNhocUlhGBMhqwMqmyLCIewnuxutrXWHRJCJqvJyL28Pom1zD2G5bZANQvrLxva8zPPwxM1Fw4BfBbKgDVkfwl1fHDRB0NRDN5Bps5a_8KdEZPDChhG1BxCHnB-Bmz1etTLzKxZJb_U7ElfeUNMF0u4d18D4vkNOgqfJozOjjcoIv-iY5mYNi4Env6QZeoMCcwv8hDTyRKKHkoamQH6mhXsH5NsQf7t-1A88lyaH0wegswRkxfXuuFgyu3qSltuyNBb_Yr2UL4YmjaH7ix7oMKMOBgMBi5rk_Erb1CskKXRuB-djR9NGjryJM5yqNb3CPQ30ZI-2eoQqCswcWBdarfAqef079Kpjok14ZvLkLTHEkIk9-XfUwUr0LrSzlOCGAIgFqA1Ki7MH3SCxkQ4RZD4wbvq6ifGDadJjwiCc_1BZw7fGM4owxDKFWGGXULaKPOMNGQYcnkrfF1JuuFuj2Z_Pal2KznAqAnq9HdgpqkAUTluh58I7oDDHgX8A0ltPeFFlAkr9WpnHvIkn3yRk9RLY0uGDIq7lEGokJd_vPFa0=w321-h334-no?authuser=0)
- This file will contain some enviroment variables that the application needs to work. Open the file in your favorite IDE (in my case I am using Visual Studio Code), and paste the folowing content:
+
+The last step before running the API is creating a .env file in the repository folder:
+
+![enter image description here](https://lh3.googleusercontent.com/E0V0_kYb2YXv1HQcrg9bJfmvcyY3tA0vTt3-A-cQ0OKPIzE32o0oIH9EhSIZwMF_v_GVjUtDRVUJiu3zQokgtonHe40yxcpuP7I4NAjAl9tSACVBgu95Dv-kdBPiNNOCSH28EeP-v3E1vHwoD7ONNhocUlhGBMhqwMqmyLCIewnuxutrXWHRJCJqvJyL28Pom1zD2G5bZANQvrLxva8zPPwxM1Fw4BfBbKgDVkfwl1fHDRB0NRDN5Bps5a_8KdEZPDChhG1BxCHnB-Bmz1etTLzKxZJb_U7ElfeUNMF0u4d18D4vkNOgqfJozOjjcoIv-iY5mYNi4Env6QZeoMCcwv8hDTyRKKHkoamQH6mhXsH5NsQf7t-1A88lyaH0wegswRkxfXuuFgyu3qSltuyNBb_Yr2UL4YmjaH7ix7oMKMOBgMBi5rk_Erb1CskKXRuB-djR9NGjryJM5yqNb3CPQ30ZI-2eoQqCswcWBdarfAqef079Kpjok14ZvLkLTHEkIk9-XfUwUr0LrSzlOCGAIgFqA1Ki7MH3SCxkQ4RZD4wbvq6ifGDadJjwiCc_1BZw7fGM4owxDKFWGGXULaKPOMNGQYcnkrfF1JuuFuj2Z_Pal2KznAqAnq9HdgpqkAUTluh58I7oDDHgX8A0ltPeFFlAkr9WpnHvIkn3yRk9RLY0uGDIq7lEGokJd_vPFa0=w321-h334-no?authuser=0)
+
+This file will contain some enviroment variables that the application needs to work. Open the file in your favorite IDE (in my case I am using Visual Studio Code), and paste the folowing content:
+
 **WARNING: I know that is not recommended to paste secret keys here. I am using Cloudinary service to store images but because this is a testing application I am pasting my secret key so you don't have to create a cloudinary account. But if you want to create an account feel free to do that, just paste the right keys in this file.** 
 
     DB_URI=postgres://postgres:root@localhost:5432/movie_rental_dev
