@@ -1,8 +1,13 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sequelize = require('../config/database');
 const redis = require('../config/redis');
 const Role = require('../config/role');
+const sendMailVerification = require('../helpers/send-email-verification');
+const moment = require('moment');
+const crypto = require('crypto-random-string');
+const VerificationToken = require('../models/verificationtoken');
 
 module.exports = {
     // ==========================================================================
@@ -112,15 +117,30 @@ module.exports = {
      */
     register: async (req, res) => {
         const { name, email, password } = req.body;
+        const t = await sequelize.transaction();
         try {
             const user = await User.create({
                 name,
                 email,
                 password: bcrypt.hashSync(password, 10),
-                role: Role.User
-            });
+                role: Role.User,
+                isVerified: false
+            },{ transaction: t });
+            const verificationToken = await VerificationToken.create({
+                userId: user.id,
+                token: crypto({ length: 16 }),
+                expireDate: new Date(moment()
+                    .add(parseInt(process.env.TOKEN_HOURS_TO_LIVE), 'hours')
+                    .format('YYYY-MM-DD HH:mm:ss')
+                )
+            }, { transaction: t });
+            // Send verification mail
+            const data = await sendMailVerification(email, verificationToken.token);
+            await t.commit();
             res.json(user);
         } catch (err) {
+            console.log(err);
+            await t.rollback();
             res.status(500).json({
                 error: err.message
             });
@@ -150,5 +170,8 @@ module.exports = {
                 error: err.message
             });
         }
+    },
+    confirmEmail: async(req, res) => {
+        
     },
 };

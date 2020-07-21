@@ -539,6 +539,61 @@ router.put('/api/v1/users/:id/change-role', authorize(Role.Admin), users.changeR
 
 /**
  * @swagger
+ * path:
+ *  /users/verification:
+ *    post:
+ *      summary: Confirm email address
+ *      tags: [Users]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - token
+ *                - email
+ *              properties:
+ *                token:
+ *                  type: string
+ *                  description: Verification token
+ *                email:
+ *                  type: string
+ *                  format: email
+ *      responses:
+ *        "200":
+ *          description: User role is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SuccessResponse'
+ *        "202":
+ *          description: User role is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SuccessResponse'
+ *        "403":
+ *          description: Verification failed
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: Token expired
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
+router.post('/api/v1/users/verification', users.confirmEmail);
+
+
+
+
+
+/**
+ * @swagger
  * tags:
  *  name: Sales
  *  description: Sales managment
@@ -671,6 +726,7 @@ router.post('/api/v1/sales', authorize(Role.User), sales.create);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.post('/api/v1/rents', authorize(Role.User), rents.create);
+
 
 
 
