@@ -12,10 +12,10 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:3000/api/v1"
+                url: "https://applaudo-movie-rental-v1.herokuapp.com/api/v1"
             },
             {
-                url: "https://applaudo-movie-rental-v1.herokuapp.com/api/v1"
+                url: "http://localhost:3000/api/v1"
             }
         ],
         components: {
@@ -57,6 +57,8 @@ const options = {
         "./controllers/users.js",
         "./models/movie.js",
         "./controllers/movies.js",
+        "./models/sale.js",
+        "./controllers/sales.js",
         "./router.js"
     ]
 };

@@ -94,6 +94,8 @@ router.get('/api/v1/movies', authenticate(), movies.find);
  *      parameters:
  *        - in: path
  *          name: id
+ *          schema:
+ *            type: integer
  *          required: true
  *          description: The movie ID
  *      responses:
@@ -185,6 +187,8 @@ router.post('/api/v1/movies', authorize(Role.Admin), movies.create);
  *      parameters:
  *        - in: path
  *          name: id
+ *          schema: 
+ *            type: integer
  *          required: true
  *          description: The movie ID
  *      responses:
@@ -237,6 +241,8 @@ router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);
  *      parameters:
  *        - in: path
  *          name: id
+ *          schema:
+ *            type: integer
  *          required: true
  *          description: The movie ID
  *      responses:
@@ -305,6 +311,8 @@ router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
  *        - in: path
  *          name: id
  *          required: true
+ *          schema:
+ *            type: integer
  *          description: The movie ID
  *      responses:
  *        "200":
@@ -462,9 +470,70 @@ router.post('/api/v1/logout', users.logout);
 
 
 
-// ===========
-// Sale routes
-// ===========
+/**
+ * @swagger
+ * tags:
+ *  name: Sales
+ *  description: Sales managment
+ */
+/**
+ * @swagger
+ * path:
+ *  /sales:
+ *    post:
+ *      summary: (User only) buy a movie or movies
+ *      security:
+ *        - bearerAuth: []
+ *      tags: [Sales]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/CreateSaleRequest'
+ *      responses:
+ *        "200":
+ *          description: The sale was created
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Sale'
+ *        "400":
+ *          description: Token is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: Role is unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: Movie not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: |
+ *            Add at last one movie line.
+ * 
+ *            Movie line incomplete data.
+ * 
+ *            Movie is not available.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
 router.post('/api/v1/sales', authorize(Role.User), sales.create);
 
 // ============
