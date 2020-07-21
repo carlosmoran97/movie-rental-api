@@ -80,6 +80,10 @@ router.get('/', swaggerUi.setup(specs));
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.get('/api/v1/movies', authenticate(), movies.find);
+
+
+
+
 /**
  * @swagger
  * path:
@@ -113,6 +117,10 @@ router.get('/api/v1/movies', authenticate(), movies.find);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.get('/api/v1/movies/:id', movies.findById);
+
+
+
+
 /**
  * @swagger
  * path:
@@ -155,6 +163,10 @@ router.get('/api/v1/movies/:id', movies.findById);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.post('/api/v1/movies', authorize(Role.Admin), movies.create);
+
+
+
+
 /**
  * @swagger
  * path:
@@ -209,6 +221,10 @@ router.post('/api/v1/movies', authorize(Role.Admin), movies.create);
  */
 router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);
 
+
+
+
+
 /**
  * @swagger
  * path:
@@ -253,10 +269,84 @@ router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);
  */
 router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
 
-// ============
-// Movie image
-// ============
+
+
+
+
+/**
+ * @swagger
+ * tags:
+ *  name: MovieImage
+ *  description: Update image of movies
+ */
+/**
+ * @swagger
+ * path:
+ *  /movies/{id}/image:
+ *    put:
+ *      summary: Update the image of a movie
+ *      tags: [MovieImage]
+ *      security:
+ *        - bearerAuth: []
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - image
+ *              properties:
+ *                image:
+ *                  type: string
+ *                  format: bytes
+ *                  description: A base encoded image
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: The movie ID
+ *      responses:
+ *        "200":
+ *          description: The image was updated
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  imageUrl:
+ *                    type: string
+ *                    description: URL of the image
+ *        "400":
+ *          description: Invalid token
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: User role unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: Movie not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
 router.put('/api/v1/movies/:id/image', authorize(Role.Admin), movieImage.update);
+
+
+
+
 
 /**
  * @swagger
@@ -306,6 +396,10 @@ router.put('/api/v1/movies/:id/image', authorize(Role.Admin), movieImage.update)
   */
 router.post('/api/v1/login', users.login);
 
+
+
+
+
 /**
  * @swagger
  * path:
@@ -334,6 +428,11 @@ router.post('/api/v1/login', users.login);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.post('/api/v1/register', users.register);
+
+
+
+
+
 /**
  * @swagger
  * path:
@@ -358,6 +457,10 @@ router.post('/api/v1/register', users.register);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.post('/api/v1/logout', users.logout);
+
+
+
+
 
 // ===========
 // Sale routes

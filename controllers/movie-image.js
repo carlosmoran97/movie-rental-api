@@ -35,7 +35,7 @@ module.exports = {
                 image: imageUrl
             },{ where: { id } });
             res.json({
-                publicId: imageUrl
+                imageUrl
             });
         }catch(err) {
             res.status(500).send({
