@@ -202,7 +202,7 @@ Finally to exit of the container environment type:
 
 # Documentation
 
-You can visit the online and interactive documentation of the api (Here)[https://applaudo-movie-rental-v1.herokuapp.com/]
+You can visit the online and interactive documentation of the api [Here](https://applaudo-movie-rental-v1.herokuapp.com/)
 
 For generating a token you can use the next admin credentials:
 
