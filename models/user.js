@@ -14,6 +14,8 @@ const Role = require('../config/role');
  *          - email
  *          - password
  *        properties:
+ *          id:
+ *            type: integer
  *          name:
  *            type: string
  *          email:
@@ -22,6 +24,13 @@ const Role = require('../config/role');
  *            description: Email for the user, needs to be unique.
  *          password:
  *            type: string
+ *            format: password
+ *          updatedAt:
+ *            type: string
+ *            format: date-time
+ *          createdAt:
+ *            type: string
+ *            format: date-time
  *        example:
  *          name: Carlos
  *          email: carlosmoran.97cr@gmail.com

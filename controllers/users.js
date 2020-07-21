@@ -30,6 +30,17 @@ module.exports = {
      *      properties:
      *        user:
      *          type: object
+     *          properties:
+     *            id:
+     *              type: integer
+     *            name:
+     *              type: string
+     *            email:
+     *              type: string
+     *              format: email
+     *            role:
+     *              type: string
+     *              enum: [User, Admin]
      *        token:
      *          type: string
      */
@@ -79,6 +90,26 @@ module.exports = {
             });
         }
     },
+    /**
+     * @swagger
+     * components:
+     *  schemas:
+     *    RegisterRequestBody:
+     *      type: object
+     *      required:
+     *        - name
+     *        - email
+     *        - password
+     *      properties:
+     *        name:
+     *          type: string
+     *        email:
+     *          type: string
+     *          format: email
+     *        password:
+     *          type: string
+     *          format: password
+     */
     register: async (req, res) => {
         const { name, email, password } = req.body;
         try {

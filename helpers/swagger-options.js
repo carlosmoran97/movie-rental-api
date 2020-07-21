@@ -32,7 +32,7 @@ const options = {
                 }
             },
             schemas: {
-                errorResponse: {
+                ErrorResponse: {
                     type: 'object',
                     properties: {
                         message: {
@@ -40,7 +40,18 @@ const options = {
                         }
                     },
                     example: {
-                        message: 'Not found'
+                        error: 'Error message'
+                    }
+                },
+                SuccessResponse: {
+                    type: 'object',
+                    properties: {
+                        message: {
+                            type: 'string'
+                        }
+                    },
+                    example: {
+                        message: 'Success'
                     }
                 }
             }
@@ -49,6 +60,8 @@ const options = {
     apis: [
         "./models/user.js",
         "./controllers/users.js",
+        "./models/movie.js",
+        "./controllers/movies.js",
         "./router.js"
     ]
 };

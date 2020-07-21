@@ -8,6 +8,28 @@ module.exports = {
     // ==============
     // Get products 
     // ==============
+    /**
+     * @swagger
+     * components:
+     *  schemas:
+     *    PageOfMovies:
+     *      type: object
+     *      properties:
+     *        rows:
+     *          type: array
+     *          items:
+     *            $ref: '#/components/schemas/Movie'
+     *        count:
+     *          type: integer
+     *          description: The number of total movies
+     *        pages:
+     *          type: integer
+     *          description: The number of total pages
+     *        previousPage:
+     *          type: integer
+     *        nextPage:
+     *          type: integer
+     */
     find: async (req, res) => {
         // Get all products
         // Can be ordered by title or popularity (asc or desc)
@@ -27,7 +49,6 @@ module.exports = {
                     }
                 },
             });
-
             // Paginating
             const { count, rows } = movies;
             const pages = Math.ceil(count / limit);
