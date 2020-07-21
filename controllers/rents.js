@@ -10,13 +10,38 @@ module.exports = {
     // ======================================
     // Rent a movie. Movie must be available
     // ======================================
+        /**
+     * @swagger
+     * components:
+     *  schemas:
+     *    CreateRentRequest:
+     *      type: object
+     *      required:
+     *        - lines
+     *      properties:
+     *        lines:
+     *          type: array
+     *          items:
+     *            type: object
+     *            required:
+     *              - movieId
+     *              - quantity
+     *            properties:
+     *              movieId:
+     *                type: integer
+     *                description: ID of the movie
+     *              quantity:
+     *                type: integer
+     */
     create: async(req, res) => {
         const t = await sequelize.transaction();
         try {
             const userId = req.user.id;
             const { lines } = req.body;
             if(!lines || lines.length === 0) {
-                throw new Exception('You have to add rent lines.');
+                return res.status(422).json({
+                    error: 'Add at last one movie line'
+                });
             }
             // Returning time can be setted on enviroment variables. By default is 2 days
             const rent = await Rent.create({
@@ -30,9 +55,21 @@ module.exports = {
             },{ transaction: t });
             let count = 0;
             for(const line of lines){
+                if(!line.movieId || !line.quantity) {
+                    return res.status(422).json({
+                      error: 'Movie line incomplete data'
+                    });
+                }
                 const movie = await Movie.findOne({ where: { id: line.movieId } });
+                if(!movie){
+                    return res.status(404).json({
+                      error: 'Movie not found'
+                    });
+                }
                 if(!movie.availability) {
-                    throw new Exception('Movie must be available.');
+                    return res.status(422).json({
+                        error: 'Movie is not available'
+                    });
                 }
                 await RentLine.create({
                     RentId: rent.id,
@@ -145,7 +182,7 @@ module.exports = {
             }
             // Can't return other user rent
             if(rent.UserId != userId) {
-                return res.status(400).json({
+                return res.status(422).json({
                     error: "You cant't pay other user monetary penalty"
                 });
             }

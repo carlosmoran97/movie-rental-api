@@ -59,6 +59,8 @@ const options = {
         "./controllers/movies.js",
         "./models/sale.js",
         "./controllers/sales.js",
+        "./models/rent.js",
+        "./controllers/rents.js",
         "./router.js"
     ]
 };

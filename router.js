@@ -536,16 +536,244 @@ router.post('/api/v1/logout', users.logout);
  */
 router.post('/api/v1/sales', authorize(Role.User), sales.create);
 
-// ============
-// Rent routes
-// ============
+
+
+
+/**
+ * @swagger
+ * tags:
+ *  name: Rents
+ *  description: Rents managment
+ */
+/**
+ * @swagger
+ * path:
+ *  /rents:
+ *    post:
+ *      summary: (User only) rent a movie or movies
+ *      security:
+ *        - bearerAuth: []
+ *      tags: [Rents]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/CreateRentRequest'
+ *      responses:
+ *        "200":
+ *          description: The rent was created
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Rent'
+ *        "400":
+ *          description: Token is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: Role is unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: Movie not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: |
+ *            Add at last one movie line.
+ * 
+ *            Movie line incomplete data.
+ * 
+ *            Movie is not available.
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
 router.post('/api/v1/rents', authorize(Role.User), rents.create);
+
+/**
+ * @swagger
+ * path:
+ *  /rents/{id}/return:
+ *    put:
+ *      summary: (User only) return rented movies. If there is a delay calculates a monetary penalty
+ *      security:
+ *        - bearerAuth: []
+ *      tags: [Rents]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: The rent ID
+ *      responses:
+ *        "200":
+ *          description: Movies was returned
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  state:
+ *                    type: string
+ *                    description: Rent state
+ *                  monetaryPenalty:
+ *                    type: number
+ *        "400":
+ *          description: Token is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: Role is unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: Rent not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: |
+ *            Can't return other user rented movies
+ * 
+ *            Movies already returned
+ * 
+ *            Movies returned but penalty still not payed
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
 router.put('/api/v1/rents/:id/return', authorize(Role.User), rents.returnMovie);
+
+
+
+/**
+ * @swagger
+ * path:
+ *  /rents/{id}/pay-monetary-penalty:
+ *    put:
+ *      summary: (User only) Pay monetary penalty
+ *      security:
+ *        - bearerAuth: []
+ *      tags: [Rents]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: The rent ID
+ *      responses:
+ *        "200":
+ *          description: Monetary penalty was payed
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SuccessResponse'
+ *        "400":
+ *          description: Token is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: Role is unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: Rent not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: |
+ *            You cant't pay other user monetary penalty
+ * 
+ *            There is no penalty or movies are not already returned
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
 router.put('/api/v1/rents/:id/pay-monetary-penalty', authorize(Role.User), rents.payMonetaryPenalty);
 
-// ===========
-// Like routes
-// ===========
+/**
+ * @swagger
+ * tags:
+ *  name: Likes
+ *  description: Movie likes
+ */
+/**
+ * @swagger
+ * path:
+ *  /likes:
+ *    post:
+ *      summary: Add movie like
+ *      tags: [Likes]
+ *      security:
+ *        - bearerAuth: []
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - movieId
+ *              properties:
+ *                movieId:
+ *                  type: integer
+ *                  description: The ID of the movie
+ *      responses:
+ *        "200":
+ *          description: Like was added
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SuccessResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
 router.post('/api/v1/likes', authorize(Role.User), likes.create);
 
 module.exports = router;
