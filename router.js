@@ -9,6 +9,15 @@ const users = require('./controllers/users');
 const sales = require('./controllers/sales');
 const rents = require('./controllers/rents');
 const likes = require('./controllers/likes');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerOptions = require('./helpers/swagger-options');
+
+const specs = swaggerJsdoc(swaggerOptions);
+router.use('/', swaggerUi.serve);
+router.get('/', swaggerUi.setup(specs, {
+    explorer: true
+}));
 
 // =============
 // Movie routes
@@ -24,9 +33,34 @@ router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
 // ============
 router.put('/api/v1/movies/:id/image', authorize(Role.Admin), movieImage.update);
 
-// ============
-// User routes
-// ============
+/**
+ * @swagger
+ * tags:
+ *  name: Users
+ *  description: User managment
+ */
+
+ /**
+  * @swagger
+  * path:
+  *   /login:
+  *     post:
+  *       summary: Authenticate a user
+  *       tags: [Users]
+  *       requestBody:
+  *         required: true
+  *         content:
+  *           application/json:
+  *             schema:
+  *               $ref: '#/components/schemas/LoginRequestBody'
+  *       responses:
+  *         "200":
+  *           description: User details and a token
+  *           content:
+  *             application/json:
+  *               schema:
+  *                 $ref: '#/components/schemas/LoginResponse'
+  */
 router.post('/api/v1/login', users.login);
 router.post('/api/v1/register', users.register);
 router.post('/api/v1/logout', users.logout);

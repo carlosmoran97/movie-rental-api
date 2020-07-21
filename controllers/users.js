@@ -8,12 +8,37 @@ module.exports = {
     // ==========================================================================
     // Provide email and password to generate a token that autenticates the user
     // ==========================================================================
+    /**
+     * @swagger
+     * components:
+     *  schemas:
+     *    LoginRequestBody:
+     *      type: object
+     *      required:
+     *        - email
+     *        - password
+     *      properties:
+     *        email:
+     *          type: string
+     *        password:
+     *          type: string
+     *      example:
+     *        email: carlosmoran.97cr@gmail.com
+     *        password: admin
+     *    LoginResponse:
+     *      type: object
+     *      properties:
+     *        user:
+     *          type: object
+     *        token:
+     *          type: string
+     */
     login: async (req, res) => {
         const { email } = req.body;
         try {
             const userBD = await User.findOne({ where: { email } });
             if (!userBD) {
-                return res.status(400).json({
+                return res.status(404).json({
                     error: 'User not found.'
                 });
             }

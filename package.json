@@ -24,6 +24,8 @@
     "redis": "^3.0.2",
     "sequelize": "^6.3.3",
     "sequelize-cli": "^6.2.0",
-    "streamifier": "^0.1.1"
+    "streamifier": "^0.1.1",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4"
   }
 }
