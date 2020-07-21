@@ -126,4 +126,29 @@ module.exports = {
             });
         }
     },
+    changeRole: async(req, res) => {
+        const { id: userId } = req.params;
+        const { role } = req.body;
+        try {
+            if(!Object.values(Role).includes(role)){
+                return res.status(422).json({
+                    error: `The role "${role}" is not valid`
+                });
+            }
+            const user = await User.findByPk(userId);
+            if(!user){
+                return res.status(404).json({
+                    error: 'User not found'
+                });
+            }
+            await User.update({ role }, { where: { id: userId } });
+            res.send({
+                message: `User role was updated to "${role}"`
+            });
+        }catch(err){
+            res.status(500).json({
+                error: err.message
+            });
+        }
+    },
 };

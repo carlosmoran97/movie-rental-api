@@ -228,7 +228,6 @@ router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);
 
 
 
-
 /**
  * @swagger
  * path:
@@ -274,7 +273,6 @@ router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
-
 
 
 
@@ -407,7 +405,6 @@ router.post('/api/v1/login', users.login);
 
 
 
-
 /**
  * @swagger
  * path:
@@ -440,7 +437,6 @@ router.post('/api/v1/register', users.register);
 
 
 
-
 /**
  * @swagger
  * path:
@@ -465,6 +461,77 @@ router.post('/api/v1/register', users.register);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.post('/api/v1/logout', users.logout);
+
+
+
+/**
+ * @swagger
+ * path:
+ *  /users/{id}/change-role:
+ *    put:
+ *      summary: (Admin only) change the role of a user
+ *      security:
+ *        - bearerAuth: []
+ *      tags: [Users]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: The ID of the user that you want ou change the role
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - role
+ *              properties:
+ *                role:
+ *                  type: string
+ *                  enum: [User, Admin]
+ *                  description: New role of the user
+ *      responses:
+ *        "200":
+ *          description: The role was successfuly updated
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SuccessResponse'
+ *        "400":
+ *          description: The token is invalid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: The role of the user is unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: The user was not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: User role is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
+router.put('/api/v1/users/:id/change-role', authorize(Role.Admin), users.changeRole);
 
 
 
@@ -605,6 +672,8 @@ router.post('/api/v1/sales', authorize(Role.User), sales.create);
  */
 router.post('/api/v1/rents', authorize(Role.User), rents.create);
 
+
+
 /**
  * @swagger
  * path:
@@ -732,6 +801,8 @@ router.put('/api/v1/rents/:id/return', authorize(Role.User), rents.returnMovie);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.put('/api/v1/rents/:id/pay-monetary-penalty', authorize(Role.User), rents.payMonetaryPenalty);
+
+
 
 /**
  * @swagger
