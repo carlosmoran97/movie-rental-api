@@ -290,7 +290,7 @@ router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
  * path:
  *  /movies/{id}/image:
  *    put:
- *      summary: Update the image of a movie
+ *      summary: (Admin Only) Update the image of a movie
  *      tags: [MovieImage]
  *      security:
  *        - bearerAuth: []
@@ -744,7 +744,7 @@ router.put('/api/v1/rents/:id/pay-monetary-penalty', authorize(Role.User), rents
  * path:
  *  /likes:
  *    post:
- *      summary: Add movie like
+ *      summary: (User only) Add movie like
  *      tags: [Likes]
  *      security:
  *        - bearerAuth: []
