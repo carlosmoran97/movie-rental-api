@@ -5,13 +5,8 @@ const options = {
             title: "Movie Rental API",
             version: "1.0.0",
             description: "RESTFul API to manage a small movie rental",
-            license: {
-                name: "MIT",
-                url: "https://choosealicense.com/licenses/mit/"
-            },
             contact: {
                 name: "Carlos Morán",
-                url: "https://github.com/carlosmoran97",
                 email: "carlosmoran.97cr@gmail.com"
             }
         },

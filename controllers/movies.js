@@ -89,6 +89,48 @@ module.exports = {
     // ===================
     // Create a new movie
     // ===================
+    /**
+     * @swagger
+     * components:
+     *  schemas:
+     *    CreateMovieRequestBody:
+     *      type: object
+     *      required:
+     *        - title
+     *        - description
+     *        - rentalPrice
+     *        - salePrice
+     *        - availability
+     *        - stock
+     *      properties:
+     *        id:
+     *          type: integer
+     *        title:
+     *          type: string
+     *        description:
+     *          type: string
+     *        rentalPrice:
+     *          type: number
+     *        salePrice:
+     *          type: number
+     *        availability:
+     *          type: boolean
+     *          description: Movies that are available to be selled or rented
+     *        stock:
+     *          type: integer
+     *          description: The physical inventory of a movie
+     *        image:
+     *          type: string
+     *          format: bytes
+     *          description: base64 encoded image of the movie
+     *      example:
+     *        title: "Avengers: Endgame"
+     *        description: "Los Vengadores restantes deben encontrar una manera de recuperar a sus aliados para un enfrentamiento épico con Thanos, el malvado que diezmó el planeta y el universo."
+     *        rentalPrice: 6.99
+     *        salePrice: 19.99
+     *        availability: true
+     *        stock: 25
+     */
     create: async (req, res) => {
         // The image can be send as base64 encoded, but can be empty
         const { title, description, rentalPrice, salePrice, availability, stock, image } = req.body;
@@ -125,6 +167,44 @@ module.exports = {
     // =========================
     // Update an existing movie
     // =========================
+    /**
+     * @swagger
+     * components:
+     *  schemas:
+     *    UpdateMovieRequestBody:
+     *      type: object
+     *      required:
+     *        - title
+     *        - description
+     *        - rentalPrice
+     *        - salePrice
+     *        - availability
+     *        - stock
+     *      properties:
+     *        id:
+     *          type: integer
+     *        title:
+     *          type: string
+     *        description:
+     *          type: string
+     *        rentalPrice:
+     *          type: number
+     *        salePrice:
+     *          type: number
+     *        availability:
+     *          type: boolean
+     *          description: Movies that are available to be selled or rented
+     *        stock:
+     *          type: integer
+     *          description: The physical inventory of a movie
+     *      example:
+     *        title: "Avengers: Endgame"
+     *        description: "Los Vengadores restantes deben encontrar una manera de recuperar a sus aliados para un enfrentamiento épico con Thanos, el malvado que diezmó el planeta y el universo."
+     *        rentalPrice: 6.99
+     *        salePrice: 19.99
+     *        availability: true
+     *        stock: 25
+     */
     update: async (req, res) => {
         // For updating image use PUT /movies/:id/image endpoint
         const { id } = req.params;

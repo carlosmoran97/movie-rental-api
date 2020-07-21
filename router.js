@@ -15,9 +15,7 @@ const swaggerOptions = require('./helpers/swagger-options');
 
 const specs = swaggerJsdoc(swaggerOptions);
 router.use('/', swaggerUi.serve);
-router.get('/', swaggerUi.setup(specs, {
-    explorer: true
-}));
+router.get('/', swaggerUi.setup(specs));
 
 /**
  * @swagger
@@ -30,7 +28,7 @@ router.get('/', swaggerUi.setup(specs, {
  * path:
  *  /movies:
  *    get:
- *      summary: Get a paginated list of products. Can be ordered by title or likes. You can search a movie by title. If you are an admin user you can filter movies by availability/unavailability.
+ *      summary: Get a paginated list of products. Can be ordered by title or likes, search a movie by title. Admins can filter movies by availability. No auth required
  *      security:
  *        - bearerAuth: []
  *      tags: [Movies]
@@ -115,8 +113,144 @@ router.get('/api/v1/movies', authenticate(), movies.find);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.get('/api/v1/movies/:id', movies.findById);
+/**
+ * @swagger
+ * path:
+ *  /movies:
+ *    post:
+ *      summary: (Admin only) Create a new movie. Image (base64 encoded) is optional
+ *      security:
+ *        - bearerAuth: []
+ *      tags: [Movies]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/CreateMovieRequestBody'
+ *      responses:
+ *        "200":
+ *          description: Movie was created. Return the movie details
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Movie'
+ *        "400":
+ *          description: Token is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: User role is unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
 router.post('/api/v1/movies', authorize(Role.Admin), movies.create);
+/**
+ * @swagger
+ * path:
+ *  /movies/{id}:
+ *    put:
+ *      summary: (Admin only) Update an existing movie
+ *      security:
+ *        - bearerAuth: []
+ *      tags: [Movies]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/UpdateMovieRequestBody'
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: The movie ID
+ *      responses:
+ *        "200":
+ *          description: Movie was updated. Return the movie details
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Movie'
+ *        "400":
+ *          description: Token is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: User role is unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: Movie not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
 router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);
+
+/**
+ * @swagger
+ * path:
+ *  /movies/{id}:
+ *    delete:
+ *      summary: (Admin only) Delete an existing movie
+ *      security:
+ *        - bearerAuth: []
+ *      tags: [Movies]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: The movie ID
+ *      responses:
+ *        "200":
+ *          description: Movie was deleted
+ *        "400":
+ *          description: Token is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: User role is unauthorized
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: Movie not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
 router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
 
 // ============
