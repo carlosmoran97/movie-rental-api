@@ -25,7 +25,7 @@ redis.on('error', (error)=>{
 
 // Initialize http server
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(router);
 const port = process.env.PORT || 3000;
 const host = '0.0.0.0';
