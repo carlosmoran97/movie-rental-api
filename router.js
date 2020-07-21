@@ -580,7 +580,10 @@ router.put('/api/v1/users/:id/change-role', authorize(Role.Admin), users.changeR
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  *        "404":
- *          description: Token expired
+ *          description: |
+ *            Token expired
+ *            
+ *            User not found
  *          content:
  *            application/json:
  *              schema:

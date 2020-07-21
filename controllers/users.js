@@ -172,6 +172,44 @@ module.exports = {
         }
     },
     confirmEmail: async(req, res) => {
-        
+        const { email, token } = req.body;
+        try {
+            const user = await User.findOne({ where: { email: email } });
+            if(!user){
+                return res.status(404).json({
+                    error: 'User not found'
+                });
+            }
+            if(user.isVerified){
+                return res.status(202).json({
+                    message: 'Email already verified'
+                });
+            }
+            const verificationToken = await VerificationToken.findOne({
+                where: { token: token }
+            });
+            if(!verificationToken){
+                return res.status(404).json({
+                    error: 'Token expired'
+                });
+            }
+            if(verificationToken.expireDate < new Date()){
+                verificationToken.destroy();
+                return res.status(404).json({
+                    error: 'Token expired'
+                });
+            }
+            await user.update({
+                isVerified: true
+            });
+            verificationToken.destroy();
+            res.json({
+                message: `User with ${user.email} has been verified`
+            });
+        }catch(err){
+            res.status(500).json({
+                error: err.message
+            });
+        }
     },
 };
