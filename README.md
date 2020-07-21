@@ -1,10 +1,11 @@
-
-
 # Setting up Movie Rental API on local machine
 
 This guide is going to cover two ways of installing the API, the first one is installing everything on the local machine, and the second one is using docker.
-
-## Option 1
+**Table of content**
+1. [Installing on Windows machine](#option-1)
+2. [Installing with Docker](#option-2)
+3. [Exploring the documentation](#documentation)
+# Option 1
 **Installing the API on a Windows 10 machine.**
 The requirements are:
 
@@ -148,4 +149,69 @@ And the API should return a JSON Web Token like the one in the screenshot
 That's all for this installation guide. If you found any trouble please contact me at the next email: carlosmoran.97cr@gmail.com and I will be glad to help you.
 
 # Option 2
-Installing the API with docker. Currently working on this guide :) it will be available soon.
+You can install a production deploy with Docker. First of all download or clone this repository, an then create a .env.prod file with the following content:
+
+**WARNING: I know that is not recommended to paste secret keys here. I am using Cloudinary service to store images but because this is a testing application I am pasting my secret key so you don't have to create a cloudinary account. But if you want to create an account feel free to do that, just paste the right keys in this file.** 
+
+    DB_URI=postgres://postgres:root@postgres:5432/movie_rental_prod
+    SECRET=MyjdEtubwbrXZ9dv8P469dIxUfjch4gyixJTg9W4
+    TOKEN_EXPIRES_IN=30 days
+    NO_IMAGE_URL=https://res.cloudinary.com/djeytlsy3/image/upload/v1595051229/no-image_x8bbzb.jpg
+    CLOUDINARY_CLOUD_NAME=djeytlsy3
+    CLOUDINARY_API_KEY=314341952938143
+    CLOUDINARY_API_SECRET=7f3X2G5g7_ivnF82gvxkID90YTg
+    RENTAL_TIME=2
+    RENTAL_TIME_UNIT=days
+    MONETARY_PENALTY_PER_DAY=0.5
+    REDIS_URL=redis://redis:6379
+
+Now open the terminal or the command line and navigate to the project folder and type the next command:
+
+    docker-compose up -d
+
+After docker finish building the containers type the next commando to see if the containers are running.
+
+    docker ps
+
+And the output should be something like this:
+
+    CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+    133c1eb212c1        movie-rental_web    "node app.js"            3 hours ago         Up 3 hours          0.0.0.0:80->80/tcp       api
+    639ab1e37552        postgres            "docker-entrypoint.s…"   4 hours ago         Up 4 hours          0.0.0.0:5432->5432/tcp   postgres
+    b1654ad31132        redis:alpine        "docker-entrypoint.s…"   4 hours ago         Up 4 hours          0.0.0.0:6379->6379/tcp   redis
+
+The containers are up and running, the last thing that we have to do is migrating and seeding the databse, first we need to enter to the api container environment, to do that type the next command:
+
+    docker exec -ti api bash
+
+And you will see that the prompt has changed (of course the container id will be different):
+
+    root@133c1eb212c1:/usr/src/app#
+
+For migrating type the next command:
+
+    npx sequelize-cli db:migrate --env production
+
+For seeding the database type:
+
+    npx sequelize-cli db:seed:all --env production
+
+Finally to exit of the container environment type:
+
+    exit
+
+# Documentation
+
+You can visit the online and interactive documentation of the api (Here)[https://applaudo-movie-rental-v1.herokuapp.com/]
+
+For generating a token you can use the next admin credentials:
+
+    email: carlosmoran.97cr@gmail.com
+    password: admin
+
+For generating normal user token the credentials are:
+
+    email: user@example.com
+    password: user
+
+I didn't paste tokens here because they have a limited time to live.
