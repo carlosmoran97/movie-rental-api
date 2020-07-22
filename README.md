@@ -81,12 +81,15 @@ The 64-bit binary releases are created by building the [Microsoft's native port 
     redis 127.0.0.1:6379>
 
 ------
-With everything in place, now it's time to download the repository, click on the Download button an then extract the .zip file, it is going to create a folder called carlos-moran-master (if the folder is named different, just replace "carlos-moran-master" with the right folder name), now open the CMD and navigate to that folder, in my case it would be:
+With everything in place, now it's time to download the repository, click on the Download button an then extract the .zip file, it is going to create a folder called carlos-moran-master (if the folder is named different, just replace "carlos-moran-master" with the right folder name).
 
 ![Image](https://lh3.googleusercontent.com/pw/ACtC-3coaohnPT6gQfisnS95MlVSidhYktHAFkrEHipwAr7xw_JyWyTxv_3VJTD-qZeK8LWPYFmgubcWEmVoGy2-_ToLcS8FpDGTMuzNHKQ7jFJefo4lLspm1LZFGvQYxS1poEXG9KZ4yWgtkdL2wWrP_1DLZQ=w988-h473-no)
 
 ![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3eqk3UKWwgAr-d83fvKCFWWprT8wqzCyXAZEcQVo7JD4kCJ0HMjpsS-n0mr8PE0jlWNO-Hq9P0T8AiZ4Q28tU-n_zOAZz2X5X2nPa6apIjrhQpPHumeO_xofNfO_v-cTu4F13i30SZMzkoQDZCaewKHVw=w181-h213-no)
-   
+
+
+Now open the CMD and navigate to that folder, in my case it would be:
+
     cd Downloads
     cd carlos-moran-master
 
