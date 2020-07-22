@@ -7,43 +7,43 @@ const sequelize = require('../config/database');
  *  schemas:
  *    Movie:
  *      type: object
- *    required:
- *      - title
- *      - description
- *      - rentalPrice
- *      - salePrice
- *      - availability
- *      - stock
- *    properties:
- *      id:
- *        type: integer
- *      title:
- *        type: string
- *      description:
- *        type: string
- *      image:
- *        type: string
- *        format: uri
- *        description: URL of the image
- *      rentalPrice:
- *        type: number
- *      salePrice:
- *        type: number
- *      availability:
- *        type: boolean
- *        description: Movies that are available to be selled or rented
- *      stock:
- *        type: integer
- *        description: The physical inventory of a movie
- *      likes:
- *        type: integer
- *        description: Number of likes that a movie has
- *      updatedAt:
- *        type: string
- *        format: date-time
- *      createdAt:
- *        type: string
- *        format: date-time
+ *      required:
+ *        - title
+ *        - description
+ *        - rentalPrice
+ *        - salePrice
+ *        - availability
+ *        - stock
+ *      properties:
+ *        id:
+ *          type: integer
+ *        title:
+ *          type: string
+ *        description:
+ *          type: string
+ *        image:
+ *          type: string
+ *          format: uri
+ *          description: URL of the image
+ *        rentalPrice:
+ *          type: number
+ *        salePrice:
+ *          type: number
+ *        availability:
+ *          type: boolean
+ *          description: Movies that are available to be selled or rented
+ *        stock:
+ *          type: integer
+ *          description: The physical inventory of a movie
+ *        likes:
+ *          type: integer
+ *          description: Number of likes that a movie has
+ *        updatedAt:
+ *          type: string
+ *          format: date-time
+ *        createdAt:
+ *          type: string
+ *          format: date-time
  */
 class Movie extends Model {}
 
