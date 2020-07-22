@@ -1,7 +1,10 @@
+// Express
 const express = require('express');
 const router = express.Router();
 const authorize = require('./middleware/authorize');
 const authenticate = require('./middleware/authenticate');
+
+// Controllers
 const Role = require('./config/role');
 const movies = require('./controllers/movies');
 const movieImage = require('./controllers/movie-image');
@@ -9,10 +12,11 @@ const users = require('./controllers/users');
 const sales = require('./controllers/sales');
 const rents = require('./controllers/rents');
 const likes = require('./controllers/likes');
+
+// Swagger
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const swaggerOptions = require('./helpers/swagger-options');
-
 const specs = swaggerJsdoc(swaggerOptions);
 router.use('/', swaggerUi.serve);
 router.get('/', swaggerUi.setup(specs));
@@ -68,6 +72,12 @@ router.get('/', swaggerUi.setup(specs));
  *                $ref: '#/components/schemas/PageOfMovies'
  *        "400":
  *          description: The token has experied or have been added to a deny list
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: Validation error
  *          content:
  *            application/json:
  *              schema:
@@ -984,6 +994,30 @@ router.put('/api/v1/rents/:id/pay-monetary-penalty', authorize(Role.User), rents
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/SuccessResponse'
+ *        "400":
+ *          description: Invalid token
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "401":
+ *          description: Token required
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "404":
+ *          description: Movie not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: Validation errors
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
  *        "500":
  *          description: Internal server error
  *          content:
@@ -991,6 +1025,9 @@ router.put('/api/v1/rents/:id/pay-monetary-penalty', authorize(Role.User), rents
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/api/v1/likes', authorize(Role.User), likes.create);
+router.post('/api/v1/likes', [
+  ...authorize(Role.User),
+  likes.validate('create_like')
+], likes.create);
 
 module.exports = router;
