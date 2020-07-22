@@ -19,5 +19,12 @@
       "database": "movie_rental_prod",
       "host": "postgres",
       "dialect": "postgres"
+    },
+    "heroku": {
+      "username":"gpgkzrlnhjwubg",
+      "password":"bd15c634456b9ef481b18d202e7dad3b0a9d646ba40da12da7581a82c0f9641e",
+      "database":"dcg5uo3cnhchi7",
+      "host":"ec2-18-210-214-86.compute-1.amazonaws.com",
+      "dialect":"postgres"
     }
   }

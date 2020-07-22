@@ -130,6 +130,10 @@ This file will contain some enviroment variables that the application needs to w
     RENTAL_TIME_UNIT=days
     MONETARY_PENALTY_PER_DAY=0.5
     REDIS_URL=redis://localhost:6379
+    SEND_GRID_API_KEY=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
+    SENDER_EMAIL=carlosmoran.97cr@gmail.com
+    TOKEN_HOURS_TO_LIVE=24
+
 And the file should look like this
 ![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3cfydjAPKilsTnmdHqbXwJIvtueFTO3vQegLzOykdIBnE771lhrHGLdyg9c47VpA1rM_r3FPBPHcVIiBf96Pj9JBHV8MQWo3tVQ8RwOT9t2-WBqEPxDbUNgnRuFVJGn3_B8PzRQRlJuGZ_HCSZQIofDhQ=w1395-h969-no)
 
@@ -151,7 +155,7 @@ That's all for this installation guide. If you found any trouble please contact 
 # Option 2
 You can install a production deploy with Docker. First of all download or clone this repository, an then create a .env.prod file with the following content:
 
-**WARNING: I know that is not recommended to paste secret keys here. I am using Cloudinary service to store images but because this is a testing application I am pasting my secret key so you don't have to create a cloudinary account. But if you want to create an account feel free to do that, just paste the right keys in this file.** 
+**WARNING: I know that is not recommended to paste secret keys here. I am using Cloudinary service to store images, and sendgrid to send emails but because this is a testing application I am pasting my secret key so you don't have to create a cloudinary account. But if you want to create an account feel free to do that, just paste the right keys in this file.** 
 
     DB_URI=postgres://postgres:root@postgres:5432/movie_rental_prod
     SECRET=MyjdEtubwbrXZ9dv8P469dIxUfjch4gyixJTg9W4
@@ -164,6 +168,9 @@ You can install a production deploy with Docker. First of all download or clone 
     RENTAL_TIME_UNIT=days
     MONETARY_PENALTY_PER_DAY=0.5
     REDIS_URL=redis://redis:6379
+    SEND_GRID_API_KEY=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
+    SENDER_EMAIL=carlosmoran.97cr@gmail.com
+    TOKEN_HOURS_TO_LIVE=24
 
 Now open the terminal or the command line and navigate to the project folder and type the next command:
 
