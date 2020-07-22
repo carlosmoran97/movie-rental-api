@@ -10,6 +10,7 @@ const moment = require('moment');
 const crypto = require('crypto-random-string');
 const VerificationToken = require('../models/verificationtoken');
 const RecoveryToken = require('../models/recoverytoken');
+const { body, param, validationResult } = require('express-validator');
 
 module.exports = {
     // ==========================================================================
@@ -280,4 +281,7 @@ module.exports = {
             });
         }
     },
+    validate: (method) => {
+        
+    }
 };

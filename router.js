@@ -89,7 +89,9 @@ router.get('/', swaggerUi.setup(specs));
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.get('/api/v1/movies', authenticate(), movies.find);
+router.get('/api/v1/movies', [
+  ...authenticate(), ...movies.validate('find')
+], movies.find);
 
 
 
@@ -121,6 +123,12 @@ router.get('/api/v1/movies', authenticate(), movies.find);
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: Validation error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
  *        "500":
  *          description: Internal server error
  *          content:
@@ -128,7 +136,7 @@ router.get('/api/v1/movies', authenticate(), movies.find);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.get('/api/v1/movies/:id', movies.findById);
+router.get('/api/v1/movies/:id', movies.validate('findById'), movies.findById);
 
 
 
@@ -167,6 +175,12 @@ router.get('/api/v1/movies/:id', movies.findById);
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: Validation error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
  *        "500":
  *          description: Internal server error
  *          content:
@@ -174,7 +188,9 @@ router.get('/api/v1/movies/:id', movies.findById);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/api/v1/movies', authorize(Role.Admin), movies.create);
+router.post('/api/v1/movies', [
+  ...authorize(Role.Admin), ...movies.validate('create')
+], movies.create);
 
 
 
@@ -226,6 +242,12 @@ router.post('/api/v1/movies', authorize(Role.Admin), movies.create);
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: Validation error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
  *        "500":
  *          description: Internal server error
  *          content:
@@ -233,7 +255,10 @@ router.post('/api/v1/movies', authorize(Role.Admin), movies.create);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);
+router.put('/api/v1/movies/:id', [
+  ...authorize(Role.Admin),
+  ...movies.validate('update')
+], movies.update);
 
 
 
@@ -275,6 +300,12 @@ router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: Validation error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
  *        "500":
  *          description: Internal server error
  *          content:
@@ -282,7 +313,10 @@ router.put('/api/v1/movies/:id', authorize(Role.Admin), movies.update);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
+router.delete('/api/v1/movies/:id', [
+  ...authorize(Role.Admin),
+  ...movies.validate('delete')
+], movies.delete);
 
 
 
@@ -365,7 +399,7 @@ router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.put('/api/v1/movies/:id/image', [
-  ...authorize(Role.Admin), movieImage.validate('update_image')
+  ...authorize(Role.Admin), ...movieImage.validate('update_image')
 ], movieImage.update);
 
 
@@ -764,7 +798,10 @@ router.post('/api/v1/users/password-recovery', users.passwordRecovery);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/api/v1/sales', authorize(Role.User), sales.create);
+router.post('/api/v1/sales', [
+  ...authorize(Role.User),
+  ...sales.validate('create')
+], sales.create);
 
 
 
@@ -816,12 +853,7 @@ router.post('/api/v1/sales', authorize(Role.User), sales.create);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  *        "422":
- *          description: |
- *            Add at last one movie line.
- * 
- *            Movie line incomplete data.
- * 
- *            Movie is not available.
+ *          description: Validation error
  *          content:
  *            application/json:
  *              schema:
@@ -833,7 +865,10 @@ router.post('/api/v1/sales', authorize(Role.User), sales.create);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/api/v1/rents', authorize(Role.User), rents.create);
+router.post('/api/v1/rents', [
+  ...authorize(Role.User),
+  ...rents.validate('create')
+], rents.create);
 
 
 
@@ -892,6 +927,8 @@ router.post('/api/v1/rents', authorize(Role.User), rents.create);
  *            Movies already returned
  * 
  *            Movies returned but penalty still not payed
+ * 
+ *            Validation error
  *          content:
  *            application/json:
  *              schema:
@@ -903,7 +940,10 @@ router.post('/api/v1/rents', authorize(Role.User), rents.create);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.put('/api/v1/rents/:id/return', authorize(Role.User), rents.returnMovie);
+router.put('/api/v1/rents/:id/return', [
+  ...authorize(Role.User),
+  ...rents.validate('return')
+], rents.returnMovie);
 
 
 
@@ -953,6 +993,8 @@ router.put('/api/v1/rents/:id/return', authorize(Role.User), rents.returnMovie);
  *            You cant't pay other user monetary penalty
  * 
  *            There is no penalty or movies are not already returned
+ * 
+ *            Validation error
  *          content:
  *            application/json:
  *              schema:
@@ -964,7 +1006,10 @@ router.put('/api/v1/rents/:id/return', authorize(Role.User), rents.returnMovie);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.put('/api/v1/rents/:id/pay-monetary-penalty', authorize(Role.User), rents.payMonetaryPenalty);
+router.put('/api/v1/rents/:id/pay-monetary-penalty', [
+  ...authorize(Role.User),
+  ...rents.validate('pay')
+], rents.payMonetaryPenalty);
 
 
 
@@ -1034,7 +1079,7 @@ router.put('/api/v1/rents/:id/pay-monetary-penalty', authorize(Role.User), rents
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.post('/api/v1/likes', [
-  ...authorize(Role.User), likes.validate('create_like')
+  ...authorize(Role.User), ...likes.validate('create_like')
 ], likes.create);
 
 module.exports = router;

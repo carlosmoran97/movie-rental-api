@@ -95,7 +95,7 @@ With everything in place, now it's time to download the repository, click on the
 Now it's time to install the node.js dependencies. For doing that run the command
 
     npm install
-Now that all the dependencies are installed it is time to migrate (creating the database tables) and populate the database with default data (seed the database). Before doing that it is important to now that the database configuration is being store on the config/config.json file. So if you have a different username or password, you can make the changes here,
+Now that all the dependencies are installed it is time to migrate (creating the database tables) and populate the database with default data (seed the database). Before doing that it is important to know that the database configuration is being store on the config/config.json file. So if you have a different username or password, you can make the changes here,
 ![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3eVRLwUGHyACZ3Tk8zsbOw-L8AA-FPjnzaMUukws6PCCDCD8O5R2Z3bVZjSsKx-0kc3j6huVyFMhT8LlhvGgUv8Zyo7XBSU-yiWJiReDXl-h1pUiWkS_BwvLIc6LhhgF4hFBXLrgJIvqiAFvQP6J-mXkA=w1148-h563-no)
 To migrate run the command
 
@@ -117,7 +117,7 @@ The last step before running the API is creating a .env file in the repository f
 
 This file will contain some enviroment variables that the application needs to work. Open the file in your favorite IDE (in my case I am using Visual Studio Code), and paste the folowing content:
 
-**WARNING: I know that is not recommended to paste secret keys here. I am using Cloudinary service to store images but because this is a testing application I am pasting my secret key so you don't have to create a cloudinary account. But if you want to create an account feel free to do that, just paste the right keys in this file.** 
+**WARNING: I know that is not recommended to paste secret keys here. I am using Cloudinary service to store images, and sendgrid to send emails but because this is a testing application I am pasting my secret key so you don't have to create a cloudinary account. But if you want to create an account feel free to do that, just paste the right keys in this file.** 
 
     DB_URI=postgres://postgres:root@localhost:5432/movie_rental_dev
     SECRET=MyjdEtubwbrXZ9dv8P469dIxUfjch4gyixJTg9W4
@@ -133,6 +133,9 @@ This file will contain some enviroment variables that the application needs to w
     SEND_GRID_API_KEY=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
     SENDER_EMAIL=carlosmoran.97cr@gmail.com
     TOKEN_HOURS_TO_LIVE=24
+
+
+**NOTE: The first variable is he connection string for PostgreSQL, if you have a different username, password or database change it there, with the format postgresql://<username>:<password>@<hostame>:<port>/<database>**
 
 And the file should look like this
 ![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3cfydjAPKilsTnmdHqbXwJIvtueFTO3vQegLzOykdIBnE771lhrHGLdyg9c47VpA1rM_r3FPBPHcVIiBf96Pj9JBHV8MQWo3tVQ8RwOT9t2-WBqEPxDbUNgnRuFVJGn3_B8PzRQRlJuGZ_HCSZQIofDhQ=w1395-h969-no)
@@ -171,6 +174,8 @@ You can install a production deploy with Docker. First of all download or clone 
     SEND_GRID_API_KEY=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
     SENDER_EMAIL=carlosmoran.97cr@gmail.com
     TOKEN_HOURS_TO_LIVE=24
+
+**NOTE: The first variable is he connection string for PostgreSQL, if you have a different username, password or database change it there, with the format postgresql://<username>:<password>@<hostame>:<port>/<database>**
 
 Now open the terminal or the command line and navigate to the project folder and type the next command:
 

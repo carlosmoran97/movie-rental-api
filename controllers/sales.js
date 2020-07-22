@@ -3,6 +3,7 @@ const SaleLine = require('../models/saleline');
 const sequelize = require('../config/database');
 const Movie = require('../models/movie');
 const salesLog = require('../helpers/sales-log');
+const { body, validationResult } = require('express-validator');
 
 module.exports = {
     // ================================================
@@ -34,23 +35,19 @@ module.exports = {
     create: async (req, res) => {
         const t = await sequelize.transaction();
         try {
-            const userId = req.user.id;
-            const { lines } = req.body;
-            if(!lines || lines.length === 0) {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
                 return res.status(422).json({
-                  error: 'Add at last one movie line'
+                    error: errors.array().map(error => error.msg)
                 });
             }
+            const userId = req.user.id;
+            const { lines } = req.body;
             const sale = await Sale.create({
                 UserId: userId
             },{ transaction: t });
             let count = 0;
             for(const line of lines){
-                if(!line.movieId || !line.quantity) {
-                  return res.status(422).json({
-                    error: 'Movie line incomplete data'
-                  });
-                }
                 const movie = await Movie.findOne({ where: { id: line.movieId } });
                 if(!movie){
                   return res.status(404).json({
@@ -79,6 +76,17 @@ module.exports = {
             res.status(500).json({
                 error: err.message
             });
+        }
+    },
+    validate: (method) => {
+        switch(method){
+            case 'create': {
+                return [
+                    body('lines', 'Add at least one sale line').exists().isArray({ min: 1 }),
+                    body('lines.*.movieId', 'movie_id is required and must be positive integer').exists().isInt({ min: 1 }),
+                    body('lines.*.quantity', 'quantity is required and must be positive integer').exists().isInt({ min: 1 }),
+                ];
+            }
         }
     },
 };

@@ -3,6 +3,7 @@ const uploadFromBufer = require('../helpers/upload_from_buffer');
 const Role = require('../config/role');
 const { Op } = require("sequelize");
 const movieUpdatesLog = require('../helpers/movie-updates-log');
+const { param, query, body, validationResult } = require('express-validator');
 
 module.exports = {
     // ==============
@@ -38,6 +39,12 @@ module.exports = {
         // paginated
         const { page = 1, limit = 10, order_by = 'title', availability, title = '' } = req.query;
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errors.array().map(error => error.msg)
+                });
+            }
             const movies = await Movie.findAndCountAll({
                 limit,
                 offset: limit * (page - 1),
@@ -73,6 +80,12 @@ module.exports = {
     findById: async (req, res) => {
         const { id } = req.params;
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errors.array().map(error => error.msg)
+                });
+            }
             const movie = await Movie.findByPk(id);
             if(!movie) {
                 return res.status(404).json({
@@ -136,6 +149,12 @@ module.exports = {
         const { title, description, rentalPrice, salePrice, availability, stock, image } = req.body;
         let imageUrl;
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errors.array().map(error => error.msg)
+                });
+            }
             if(!image) {
                 imageUrl = null;
             } else {
@@ -239,6 +258,12 @@ module.exports = {
     delete: async (req, res) => {
         const { id } = req.params;
         try{
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errors.array().map(error => error.msg)
+                });
+            }
             Movie.destroy({ where: { id } }).then((value)=>{
                 if(value == 0) {
                     return res.status(404).send({
@@ -252,6 +277,51 @@ module.exports = {
             res.status(500).json({
                 error: err.message
             });
+        }
+    },
+    validate: (method) => {
+        switch(method){
+            case 'find': {
+                return [
+                    query('page', 'Page must be a positive integer').optional().isInt({ min: 1 }),
+                    query('limit', 'Limit must be a positive integer').optional().isInt({ min: 1 }),
+                    query('order_by', 'order_by must be title, -title, popularity or -popularity').optional().isIn(['title','-title','popularity','-popularity']),
+                    query('availability', 'Availability must be boolean').optional().isBoolean(),
+                    query('title', 'Title must be a string').optional().isString()
+                ];
+            }
+            case 'findById': {
+                return [
+                    param('id', 'id must be a positive integer').exists().isInt({ min: 1 })
+                ];
+            }
+            case 'create': {
+                return [
+                    body('title', 'Title is required and must be a string').exists().isString(),
+                    body('description', 'Description is required and must be a string').exists().isString(),
+                    body('rentalPrice', 'rentalPrice is required and must be a positive number').exists().isFloat({ gt: 0 }),
+                    body('salePrice', 'salePrice is required and must be a positive number').exists().isFloat({ gt: 0 }),
+                    body('availability', 'availability is required and must be boolean').exists().isBoolean(),
+                    body('stock', 'stock is required and must be greater or equal than zero').exists().isInt({ min: 0 }),
+                    body('image', 'image must be base64 encoded image').optional().isBase64()
+                ];
+            }
+            case 'update': {
+                return [
+                    param('id', 'id must be a positive integer').exists().isInt({ min: 1 }),
+                    body('title', 'Title must be a string').optional().isString(),
+                    body('description', 'Description must be a string').optional().isString(),
+                    body('rentalPrice', 'rentalPrice must be a positive number').optional().isFloat({ gt: 0 }),
+                    body('salePrice', 'salePrice positive number').optional().isFloat({ gt: 0 }),
+                    body('availability', 'availability must be boolean').optional().isBoolean(),
+                    body('stock', 'stock greater or equal than zero').optional().isInt({ min: 0 }),               
+                ];
+            }
+            case 'delete': {
+                return [
+                    param('id', 'id must be a positive integer').exists().isInt({ min: 1 }),
+                ];
+            }
         }
     },
 };

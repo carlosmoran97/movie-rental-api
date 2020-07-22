@@ -5,6 +5,7 @@ const sequelize = require('../config/database');
 const RentState = require('../config/rent-state');
 const moment = require('moment');
 const rentsLog = require('../helpers/rents-log');
+const { param, body, validationResult } = require('express-validator');
 
 module.exports = {
     // ======================================
@@ -38,9 +39,10 @@ module.exports = {
         try {
             const userId = req.user.id;
             const { lines } = req.body;
-            if(!lines || lines.length === 0) {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: 'Add at last one movie line'
+                    error: errors.array().map(error => error.msg)
                 });
             }
             // Returning time can be setted on enviroment variables. By default is 2 days
@@ -55,11 +57,6 @@ module.exports = {
             },{ transaction: t });
             let count = 0;
             for(const line of lines){
-                if(!line.movieId || !line.quantity) {
-                    return res.status(422).json({
-                      error: 'Movie line incomplete data'
-                    });
-                }
                 const movie = await Movie.findOne({ where: { id: line.movieId } });
                 if(!movie){
                     return res.status(404).json({
@@ -99,6 +96,12 @@ module.exports = {
         const { id: rentId } = req.params;
         const t = await sequelize.transaction();
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errors.array().map(error => error.msg)
+                });
+            }
             const rent = await Rent.findByPk(rentId);
             if(!rent) {
                 return res.status(404).json({
@@ -175,6 +178,12 @@ module.exports = {
         const { id: rentId } = req.params;
         try {
             const rent = await Rent.findByPk(rentId);
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errors.array().map(error => error.msg)
+                });
+            }
             if(!rent) {
                 return res.status(404).json({
                     error: 'Rent not found'
@@ -205,6 +214,27 @@ module.exports = {
             res.status(500).json({
                 error: err.message
             });
+        }
+    },
+    validate: (method) => {
+        switch(method){
+            case 'create': {
+                return [
+                    body('lines', 'Add at least one rent line').exists().isArray({ min: 1 }),
+                    body('lines.*.movieId', 'movie_id is required and must be positive integer').exists().isInt({ min: 1 }),
+                    body('lines.*.quantity', 'quantity is required and must be positive integer').exists().isInt({ min: 1 }),
+                ];
+            }
+            case 'return': {
+                return [
+                    param('id', 'id is required and must be a positive integer').exists().isInt({ min: 1 })
+                ];
+            }
+            case 'pay': {
+                return [
+                    param('id', 'id is required and must be a positive integer').exists().isInt({ min: 1 })
+                ];
+            }
         }
     },
 };
