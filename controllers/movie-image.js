@@ -1,6 +1,8 @@
 const Movie = require('../models/movie');
 const uploadFromBufer = require('../helpers/upload_from_buffer');
 const updateImage = require('../helpers/update-image');
+const { body, param, validationResult } = require('express-validator');
+
 // =====================
 // Update a movie image
 // =====================
@@ -9,6 +11,12 @@ module.exports = {
         const { id } = req.params;
         const { image }= req.body;
         try{
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errors.array().map(error => error.msg)
+                });
+            }
             let imageId;
             const movie = await Movie.findByPk(id);
             if(!movie) {
@@ -41,6 +49,16 @@ module.exports = {
             res.status(500).send({
                 error: err.message
             });
+        }
+    },
+    validate: (method) => {
+        switch(method){
+            case 'update_image': {
+                return [
+                    body('image', "Base64 encoded image is required").exists().isBase64(),
+                    param('id', "Integer movie id is required").exists().isInt()
+                ];
+            }
         }
     },
 };

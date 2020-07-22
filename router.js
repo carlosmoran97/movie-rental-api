@@ -351,6 +351,12 @@ router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: Validation errors
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
  *        "500":
  *          description: Internal server error
  *          content:
@@ -358,7 +364,9 @@ router.delete('/api/v1/movies/:id', authorize(Role.Admin), movies.delete);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.put('/api/v1/movies/:id/image', authorize(Role.Admin), movieImage.update);
+router.put('/api/v1/movies/:id/image', [
+  ...authorize(Role.Admin), movieImage.validate('update_image')
+], movieImage.update);
 
 
 
@@ -1026,8 +1034,7 @@ router.put('/api/v1/rents/:id/pay-monetary-penalty', authorize(Role.User), rents
  *                $ref: '#/components/schemas/ErrorResponse'
  */
 router.post('/api/v1/likes', [
-  ...authorize(Role.User),
-  likes.validate('create_like')
+  ...authorize(Role.User), likes.validate('create_like')
 ], likes.create);
 
 module.exports = router;
