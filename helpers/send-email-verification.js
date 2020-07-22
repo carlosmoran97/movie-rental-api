@@ -1,12 +1,5 @@
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+const sendMail = require('./send-mail');
 
 module.exports = (email, token) => {
-    const msg = {
-        to: email,
-        from: process.env.SENDER_EMAIL,
-        subject: 'Verify your email',
-        text: `email: ${email} token: ${token}`
-    };
-    return sgMail.send(msg);
+    return sendMail(email, 'Verify your email', `email: ${email} token: ${token}`);
 };

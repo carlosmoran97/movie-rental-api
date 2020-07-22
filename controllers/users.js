@@ -5,9 +5,11 @@ const sequelize = require('../config/database');
 const redis = require('../config/redis');
 const Role = require('../config/role');
 const sendMailVerification = require('../helpers/send-email-verification');
+const sendRecoveryMail = require('../helpers/send-recovery-mail');
 const moment = require('moment');
 const crypto = require('crypto-random-string');
 const VerificationToken = require('../models/verificationtoken');
+const RecoveryToken = require('../models/recoverytoken');
 
 module.exports = {
     // ==========================================================================
@@ -135,7 +137,7 @@ module.exports = {
                 )
             }, { transaction: t });
             // Send verification mail
-            const data = await sendMailVerification(email, verificationToken.token);
+            await sendMailVerification(email, verificationToken.token);
             await t.commit();
             res.json(user);
         } catch (err) {
@@ -205,6 +207,72 @@ module.exports = {
             verificationToken.destroy();
             res.json({
                 message: `User with ${user.email} has been verified`
+            });
+        }catch(err){
+            res.status(500).json({
+                error: err.message
+            });
+        }
+    },
+    sendPasswordRecovery: async(req, res) => {
+        const { email } = req.params;
+        const t = await sequelize.transaction();
+        try{
+            const user = await User.findOne({ where: { email: email } });
+            if(!user){
+                return res.status(404).json({
+                    error: 'User no found'
+                });
+            }
+            const recoveryToken = await RecoveryToken.create({
+                userId: user.id,
+                token: crypto({ length: 16 }),
+                expireDate: new Date(moment()
+                    .add(parseInt(process.env.TOKEN_HOURS_TO_LIVE), 'hours')
+                    .format('YYYY-MM-DD HH:mm:ss')
+                )
+            },{ transaction: t });
+            await sendRecoveryMail(email, recoveryToken.token);
+            await t.commit();
+            res.json({
+                message: 'Recovery email has been sent'
+            });
+        }catch(err){
+            await t.rollback();
+            res.status(500).json({
+                error: err.message
+            });
+        }
+    },
+    passwordRecovery: async(req, res) => {
+        const { email, token, password } = req.body;
+        try {
+            const user = await User.findOne({ where: { email: email } });
+            if(!user){
+                return res.status(404).json({
+                    error: 'User not found'
+                });
+            }
+            const recoveryToken = await RecoveryToken.findOne({
+                where: { token: token }
+            });
+            if(!recoveryToken){
+                return res.status(404).json({
+                    error: 'Token expired'
+                });
+            }
+            if(recoveryToken.expireDate < new Date()){
+                recoveryToken.destroy();
+                return res.status(404).json({
+                    error: 'Token expired'
+                });
+            }
+            await user.update({
+                password: bcrypt.hashSync(password, 10)
+            });
+            recoveryToken.destroy();
+            res.json({
+                message: `Password of the user with ${user.email} has been changed`
             });
         }catch(err){
             res.status(500).json({

@@ -562,13 +562,13 @@ router.put('/api/v1/users/:id/change-role', authorize(Role.Admin), users.changeR
  *                  format: email
  *      responses:
  *        "200":
- *          description: User role is not valid
+ *          description: Email has been confirmed
  *          content:
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/SuccessResponse'
  *        "202":
- *          description: User role is not valid
+ *          description: Email was already confirmed
  *          content:
  *            application/json:
  *              schema:
@@ -594,6 +594,93 @@ router.post('/api/v1/users/verification', users.confirmEmail);
 
 
 
+/**
+ * @swagger
+ * path:
+ *  /users/{email}/send-password-recovery:
+ *    post:
+ *      summary: Send an email with password recovery token
+ *      tags: [Users]
+ *      parameters:
+ *        - in: path
+ *          name: email
+ *          schema:
+ *            type: string
+ *            format: email
+ *      responses:
+ *        "200":
+ *          description: Password recovery email has been sent
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SuccessResponse'
+ *        "404":
+ *          description: User not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ */
+router.post('/api/v1/users/:email/send-password-recovery', users.sendPasswordRecovery);
+
+
+
+
+/**
+ * @swagger
+ * path:
+ *  /users/password-recovery:
+ *    post:
+ *      summary: Recover password
+ *      tags: [Users]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              required:
+ *                - email
+ *                - token
+ *                - password
+ *              properties:
+ *                email:
+ *                  type: string
+ *                token:
+ *                  type: string
+ *                password:
+ *                  type: string
+ *      responses:
+ *        "200":
+ *          description: Password has been changed
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/SuccessResponse'
+ *        "404":
+ *          description: |
+ *            Token expired
+ *            
+ *            User not found
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ * 
+ */
+router.post('/api/v1/users/password-recovery', users.passwordRecovery);
 
 /**
  * @swagger
