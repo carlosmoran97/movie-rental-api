@@ -135,7 +135,7 @@ This file will contain some enviroment variables that the application needs to w
     TOKEN_HOURS_TO_LIVE=24
 
 
-**NOTE: The first variable is he connection string for PostgreSQL, if you have a different username, password or database change it there, with the format postgresql://<username>:<password>@<hostame>:<port>/<database>**
+**NOTE: The first variable is the connection string for PostgreSQL, if you have a different username, password or database change it there, with the format postgresql://username:password@hostame:port/database**
 
 And the file should look like this
 ![enter image description here](https://lh3.googleusercontent.com/pw/ACtC-3cfydjAPKilsTnmdHqbXwJIvtueFTO3vQegLzOykdIBnE771lhrHGLdyg9c47VpA1rM_r3FPBPHcVIiBf96Pj9JBHV8MQWo3tVQ8RwOT9t2-WBqEPxDbUNgnRuFVJGn3_B8PzRQRlJuGZ_HCSZQIofDhQ=w1395-h969-no)
@@ -175,7 +175,7 @@ You can install a production deploy with Docker. First of all download or clone 
     SENDER_EMAIL=carlosmoran.97cr@gmail.com
     TOKEN_HOURS_TO_LIVE=24
 
-**NOTE: The first variable is he connection string for PostgreSQL, if you have a different username, password or database change it there, with the format postgresql://<username>:<password>@<hostame>:<port>/<database>**
+**NOTE: The first variable is the connection string for PostgreSQL, if you have a different username, password or database change it there, with the format postgresql://username:password@hostame:port/database**
 
 Now open the terminal or the command line and navigate to the project folder and type the next command:
 
