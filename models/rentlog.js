@@ -5,17 +5,11 @@ const User = require('./user');
 
 class RentLog extends Model {};
 RentLog.init({
-  message: DataTypes.STRING
+  message: DataTypes.STRING,
+  UserId: DataTypes.INTEGER
 }, {
   sequelize,
   modelName: 'RentLog',
-});
-
-RentLog.belongsTo(User, {
-  foreignKey: {
-    name: 'UserId',
-    allowNull: false
-  }
 });
 
 module.exports = RentLog;

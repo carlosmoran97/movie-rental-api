@@ -11,17 +11,11 @@ MovieUpdatesLog.init({
   rentalPriceUpdate: DataTypes.FLOAT,
   previousTitle: DataTypes.STRING,
   previousSalePrice: DataTypes.FLOAT,
-  previousRentalPrice: DataTypes.FLOAT
+  previousRentalPrice: DataTypes.FLOAT,
+  MovieId: DataTypes.INTEGER
 }, {
   sequelize,
   modelName: 'MovieUpdatesLog',
-});
-
-MovieUpdatesLog.belongsTo(Movie, {
-  foreignKey: {
-    name: 'MovieId',
-    allowNull: false
-  }
 });
 
 module.exports = MovieUpdatesLog;

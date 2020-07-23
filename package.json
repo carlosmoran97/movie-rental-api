@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "migrate:seed": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate:seed",
+    "test": "cross-env NODE_ENV=test jest --runInBand --testTimeout=1000000",
+    "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
   },
   "author": "",
   "license": "ISC",
@@ -32,7 +35,14 @@
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "jest": "^26.1.0",
     "supertest": "^4.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

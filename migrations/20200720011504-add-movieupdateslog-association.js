@@ -4,12 +4,6 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addColumn('MovieUpdatesLogs', 'MovieId', {
       type: Sequelize.INTEGER,
-      references: {
-        model: 'Movies',
-        key: 'id'
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'RESTRICT'
     });
   },
 

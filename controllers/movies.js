@@ -160,11 +160,9 @@ module.exports = {
                 imageUrl = null;
             } else {
                 // Upload to cloudinary
-                // NOTE: image.split(',')[1] is used becase the base64 string si expected to be in the format
-                // data:image/png;base64,SOME DATA...
                 // I decided to use base64 format instead of multipart/orm-data to keep the json standard in
                 // every endpoint.
-                const imageFile = Buffer.from(image.split(',')[1], 'base64');
+                const imageFile = Buffer.from(image, 'base64');
                 const result = await uploadFromBufer(imageFile);
                 imageUrl = result.url;
             }

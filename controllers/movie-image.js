@@ -25,7 +25,7 @@ module.exports = {
                     error: 'Movie not found'
                 });
             }
-            const imageFile = Buffer.from(image.split(',')[1], 'base64');
+            const imageFile = Buffer.from(image, 'base64');
             if(!movie.image) {
                 // Image is empty, so we upload a new image
                 const result = await uploadFromBufer(imageFile);

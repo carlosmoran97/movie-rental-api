@@ -18,9 +18,16 @@ module.exports = {
       role: 'Admin',
       createdAt: new Date(),
       updatedAt: new Date()
+    },{
+      name: 'Normal User',
+      email: 'user@example.com',
+      password: '$2b$10$yjlHxIpH3C.KI7aleAZ0I.NwOSVo53drutEa0XD8pCH8mrp8kCjVW',
+      role: 'User',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }]);
   },
-
+  
   down: async (queryInterface, Sequelize) => {
     /**
      * Add commands to revert seed here.

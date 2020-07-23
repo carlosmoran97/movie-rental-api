@@ -136,6 +136,12 @@ module.exports = {
                     error: errorsResponse(errors)
                 });
             }
+            const foundUser = await User.findOne({ where: { email } });
+            if(foundUser){
+                return res.status(400).json({
+                    error: 'Email already registered'
+                });
+            }
             const user = await User.create({
                 name,
                 email,

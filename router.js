@@ -483,6 +483,12 @@ router.post('/api/v1/login', users.validate('login'), users.login);
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/User'
+ *        "400":
+ *          description: Email already registered
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
  *        "500":
  *          description: Internal server error
  *          content:
