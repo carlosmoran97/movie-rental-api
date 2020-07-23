@@ -4,6 +4,7 @@ const sequelize = require('../config/database');
 const Movie = require('../models/movie');
 const salesLog = require('../helpers/sales-log');
 const { body, validationResult } = require('express-validator');
+const errorsResponse = require('../helpers/errors-response');
 
 module.exports = {
     // ================================================
@@ -38,7 +39,7 @@ module.exports = {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             const userId = req.user.id;

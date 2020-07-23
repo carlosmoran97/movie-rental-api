@@ -6,6 +6,7 @@ const RentState = require('../config/rent-state');
 const moment = require('moment');
 const rentsLog = require('../helpers/rents-log');
 const { param, body, validationResult } = require('express-validator');
+const errorsResponse = require('../helpers/errors-response');
 
 module.exports = {
     // ======================================
@@ -42,7 +43,7 @@ module.exports = {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             // Returning time can be setted on enviroment variables. By default is 2 days
@@ -99,7 +100,7 @@ module.exports = {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             const rent = await Rent.findByPk(rentId);
@@ -181,7 +182,7 @@ module.exports = {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             if(!rent) {

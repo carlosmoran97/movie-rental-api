@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const uploadFromBufer = require('../helpers/upload_from_buffer');
 const updateImage = require('../helpers/update-image');
 const { body, param, validationResult } = require('express-validator');
+const errorsResponse = require('../helpers/errors-response');
 
 // =====================
 // Update a movie image
@@ -14,7 +15,7 @@ module.exports = {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             let imageId;

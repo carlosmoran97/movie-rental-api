@@ -11,6 +11,7 @@ const crypto = require('crypto-random-string');
 const VerificationToken = require('../models/verificationtoken');
 const RecoveryToken = require('../models/recoverytoken');
 const { body, param, validationResult } = require('express-validator');
+const errorsResponse = require('../helpers/errors-response');
 
 module.exports = {
     // ==========================================================================
@@ -55,6 +56,12 @@ module.exports = {
     login: async (req, res) => {
         const { email } = req.body;
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errorsResponse(errors)
+                });
+            }
             const userBD = await User.findOne({ where: { email } });
             if (!userBD) {
                 return res.status(404).json({
@@ -122,6 +129,13 @@ module.exports = {
         const { name, email, password } = req.body;
         const t = await sequelize.transaction();
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                await t.rollback();
+                return res.status(422).json({
+                    error: errorsResponse(errors)
+                });
+            }
             const user = await User.create({
                 name,
                 email,
@@ -153,9 +167,10 @@ module.exports = {
         const { id: userId } = req.params;
         const { role } = req.body;
         try {
-            if(!Object.values(Role).includes(role)){
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: `The role "${role}" is not valid`
+                    error: errorsResponse(errors)
                 });
             }
             const user = await User.findByPk(userId);
@@ -177,6 +192,12 @@ module.exports = {
     confirmEmail: async(req, res) => {
         const { email, token } = req.body;
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errorsResponse(errors)
+                });
+            }
             const user = await User.findOne({ where: { email: email } });
             if(!user){
                 return res.status(404).json({
@@ -219,6 +240,12 @@ module.exports = {
         const { email } = req.params;
         const t = await sequelize.transaction();
         try{
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errorsResponse(errors)
+                });
+            }
             const user = await User.findOne({ where: { email: email } });
             if(!user){
                 return res.status(404).json({
@@ -248,6 +275,12 @@ module.exports = {
     passwordRecovery: async(req, res) => {
         const { email, token, password } = req.body;
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errorsResponse(errors)
+                });
+            }
             const user = await User.findOne({ where: { email: email } });
             if(!user){
                 return res.status(404).json({
@@ -282,6 +315,44 @@ module.exports = {
         }
     },
     validate: (method) => {
-        
+        switch(method){
+            case 'login': {
+                return [
+                    body('email', "Email required").exists().isString().isEmail(),
+                    body('password', "Pasword required").exists().isString()
+                ];
+            }
+            case 'register': {
+                return [
+                    body('name', "Name required").exists().isString(),
+                    body('email', "Email required").exists().isString().isEmail(),
+                    body('password', "Pasword required").exists().isString()
+                ];
+            }
+            case 'change-role': {
+                return [
+                    param('id', 'Is is required and must be a positive integer').exists().isInt({ min: 1 }),
+                    body('role', 'The role is not valid, valid roles: Admin, User').exists().isString().isIn(['Admin', 'User'])
+                ];
+            }
+            case 'verification': {
+                return [
+                    body('email', "Email is required").exists().isString().isEmail(),
+                    body('token', "Token is required").exists().isString()
+                ];
+            }
+            case 'send-password-recovery': {
+                return [
+                    param('email', "Email is required").exists().isString().isEmail()
+                ];
+            }
+            case 'password-recovery': {
+                return [
+                    body('email', "Email is required").exists().isString().isEmail(),
+                    body('token', "Token is required").exists().isString(),
+                    body('password', "Pasword required").exists().isString()
+                ];
+            }
+        }
     }
 };

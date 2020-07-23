@@ -2,6 +2,7 @@ const Like = require('../models/like');
 const Movie = require('../models/movie');
 const sequelize = require('../config/database');
 const { body, validationResult } = require('express-validator');
+const errorsResponse = require('../helpers/errors-response');
 
 module.exports = {
     create: async(req, res) => {
@@ -13,7 +14,7 @@ module.exports = {
             if(!errors.isEmpty()){
                 await t.rollback();
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             const movie = await Movie.findByPk(movieId);

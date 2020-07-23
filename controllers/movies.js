@@ -4,6 +4,7 @@ const Role = require('../config/role');
 const { Op } = require("sequelize");
 const movieUpdatesLog = require('../helpers/movie-updates-log');
 const { param, query, body, validationResult } = require('express-validator');
+const errorsResponse = require('../helpers/errors-response');
 
 module.exports = {
     // ==============
@@ -42,7 +43,7 @@ module.exports = {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             const movies = await Movie.findAndCountAll({
@@ -83,7 +84,7 @@ module.exports = {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             const movie = await Movie.findByPk(id);
@@ -152,7 +153,7 @@ module.exports = {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             if(!image) {
@@ -229,6 +230,12 @@ module.exports = {
         const { id } = req.params;
         const { title, description, rentalPrice, salePrice, availability, stock } = req.body;
         try {
+            const errors = validationResult(req);
+            if(!errors.isEmpty()){
+                return res.status(422).json({
+                    error: errorsResponse(errors)
+                });
+            }
             const movie = await Movie.findByPk(id);
             if(!movie) {
                 return res.status(404).json({
@@ -261,7 +268,7 @@ module.exports = {
             const errors = validationResult(req);
             if(!errors.isEmpty()){
                 return res.status(422).json({
-                    error: errors.array().map(error => error.msg)
+                    error: errorsResponse(errors)
                 });
             }
             Movie.destroy({ where: { id } }).then((value)=>{

@@ -445,6 +445,12 @@ router.put('/api/v1/movies/:id/image', [
   *             application/json:
   *               schema:
   *                 $ref: '#/components/schemas/ErrorResponse'
+  *         "422":
+  *           description: Validation error
+  *           content:
+  *             application/json:
+  *               schema:
+  *                 $ref: '#/components/schemas/ErrorResponse'
   *         "500":
   *           description: Internal server error
   *           content:
@@ -452,7 +458,7 @@ router.put('/api/v1/movies/:id/image', [
   *               schema:
   *                 $ref: '#/components/schemas/ErrorResponse'
   */
-router.post('/api/v1/login', users.login);
+router.post('/api/v1/login', users.validate('login'), users.login);
 
 
 
@@ -484,7 +490,7 @@ router.post('/api/v1/login', users.login);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/api/v1/register', users.register);
+router.post('/api/v1/register', users.validate('register'), users.register);
 
 
 
@@ -583,7 +589,10 @@ router.post('/api/v1/logout', users.logout);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.put('/api/v1/users/:id/change-role', authorize(Role.Admin), users.changeRole);
+router.put('/api/v1/users/:id/change-role', [
+  ...authorize(Role.Admin),
+  ...users.validate('change-role')
+], users.changeRole);
 
 
 
@@ -640,8 +649,20 @@ router.put('/api/v1/users/:id/change-role', authorize(Role.Admin), users.changeR
  *            application/json:
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
+ *        "422":
+ *          description: User role is not valid
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
+ *        "500":
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/api/v1/users/verification', users.confirmEmail);
+router.post('/api/v1/users/verification', users.validate('verification'), users.confirmEmail);
 
 
 
@@ -679,7 +700,10 @@ router.post('/api/v1/users/verification', users.confirmEmail);
  *              schema:
  *                $ref: '#/components/schemas/ErrorResponse'
  */
-router.post('/api/v1/users/:email/send-password-recovery', users.sendPasswordRecovery);
+router.post('/api/v1/users/:email/send-password-recovery',
+  users.validate('send-password-recovery'),
+  users.sendPasswordRecovery
+);
 
 
 
@@ -732,7 +756,7 @@ router.post('/api/v1/users/:email/send-password-recovery', users.sendPasswordRec
  *                $ref: '#/components/schemas/ErrorResponse'
  * 
  */
-router.post('/api/v1/users/password-recovery', users.passwordRecovery);
+router.post('/api/v1/users/password-recovery', users.validate('password-recovery'), users.passwordRecovery);
 
 /**
  * @swagger
